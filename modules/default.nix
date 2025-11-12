@@ -1,0 +1,3 @@
+{
+  developer = import ./developer.nix;
+}
