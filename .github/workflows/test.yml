@@ -1,0 +1,22 @@
+name: "Test"
+on:
+  pull_request:
+  push:
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        nixOpts: [
+            "", # default: unstable
+            "--override-input nixpkgs https://channels.nixos.org/nixos-25.05/nixexprs.tar.xz",
+            "--override-input nixpkgs https://channels.ctrl-os.com/channel/ctrlos-24.05.tar.xz",
+          ]
+    steps:
+      - uses: actions/checkout@v5
+      - uses: cachix/install-nix-action@v31
+        with:
+          extra_nix_options:
+            extra-trusted-public-keys = cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=
+            extra-substituters = https://cache.ctrl-os.com/
+      - run: nix -L flake check $nixOpts
