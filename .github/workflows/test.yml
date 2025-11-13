@@ -3,6 +3,12 @@ on:
   pull_request:
   push:
 jobs:
+  style:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: cachix/install-nix-action@v31
+      - run: nix develop --command nixpkgs-fmt --check .
   tests:
     runs-on: ubuntu-latest
     strategy:
