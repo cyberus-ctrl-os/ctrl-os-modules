@@ -5,12 +5,17 @@ with [CTRL-OS](https://ctrl-os.com/) (and NixOS).
 
 ## Module Documentation
 
+Detailed module documentation and gettig started guides are soon available on
+[docs.ctrl-os.com](https://docs.ctrl-os.com/).
+
+All modules are available via `nixosModules` of this Flake. If you don't use
+Flakes, import the module file in `/modules` directly. We will streamline this
+later!
+
 Modules follow a simple configuration pattern. Module `foo` has its
 configuration under `ctrl-os.foo`. So to enable module `foo`, you
 typically write `ctrl-os.foo.enable = true`;
 
-Detailed module documentation is available on
-[docs.ctrl-os.com](https://docs.ctrl-os.com/).
 
 ## Available Modules
 
