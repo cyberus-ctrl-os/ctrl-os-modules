@@ -5,7 +5,7 @@ with [CTRL-OS](https://ctrl-os.com/) (and NixOS).
 
 ## Module Documentation
 
-Detailed module documentation and gettig started guides are soon available on
+Detailed module documentation and Getting Started guides are soon available on
 [docs.ctrl-os.com](https://docs.ctrl-os.com/).
 
 All modules are available via `nixosModules` of this Flake. If you don't use
