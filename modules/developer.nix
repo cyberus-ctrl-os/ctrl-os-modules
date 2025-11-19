@@ -11,10 +11,9 @@ in
 
   config = lib.mkIf cfg.enable {
     nix = {
-      # We re-use the suggested settings from the flake. If there is a better way to do this, please suggest it. :-)
       settings = {
         extra-trusted-public-keys = [
-          "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+          "ctrl-os:baPzGxj33zp/P+GAIJXsr8ss9Law+qEEFViX1+flbv8="
         ];
 
         extra-substituters = [
