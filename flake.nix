@@ -5,26 +5,46 @@
   # different Nixpkgs versions and with CTRL-OS in the CI.
   inputs = {
     nixpkgs.url = "https://channels.nixos.org/nixos-unstable/nixexprs.tar.xz";
+    preCommitHooksNix = {
+      url = "github:cachix/git-hooks.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    flake-parts.url = "github:hercules-ci/flake-parts";
   };
 
   outputs =
-    inputs@{ self, ... }:
-    {
-      nixosModules = import ./modules;
+    inputs@{ flake-parts, ... }:
+    flake-parts.lib.mkFlake { inherit inputs; } {
+      systems = [
+        "aarch64-linux"
+        "x86_64-linux"
+      ];
+      imports = [
+        inputs.preCommitHooksNix.flakeModule
+        ./checks
+      ];
+      flake.nixosModules = import ./modules;
 
-      # For now, tests run only on x86_64. Will expand a bit later.
-      checks.x86_64-linux = import ./checks {
-        pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux;
-        modules = self.nixosModules;
-      };
+      perSystem =
+        {
+          pkgs,
+          config,
+          system,
+          ...
+        }:
+        {
+          _module.args.pkgs = import inputs.nixpkgs {
+            inherit system;
+          };
 
-      # Common developer tooling. We also use this in the CI.
-      devShells.x86_64-linux.default =
-        let
-          pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux;
-        in
-        pkgs.mkShell {
-          packages = [ pkgs.nixpkgs-fmt ];
+          formatter = pkgs.nixfmt-rfc-style;
+
+          # Common developer tooling. We also use this in the CI.
+          devShells.default = pkgs.mkShell {
+            packages = [ ] ++ config.pre-commit.settings.enabledPackages;
+            shellHook = config.pre-commit.installationScript;
+          };
         };
     };
 }
