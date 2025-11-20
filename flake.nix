@@ -23,6 +23,7 @@
       imports = [
         inputs.preCommitHooksNix.flakeModule
         ./checks
+        ./packages
       ];
       flake.nixosModules = import ./modules;
 
