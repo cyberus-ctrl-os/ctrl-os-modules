@@ -23,7 +23,10 @@ in
         # While some developers prefer not to use flakes for their
         # projects, it is convenient to have them enabled to
         # copy'n'paste documentation snippets.
-        experimental-features = [ "nix-command" "flakes" ];
+        experimental-features = [
+          "nix-command"
+          "flakes"
+        ];
       };
     };
   };
