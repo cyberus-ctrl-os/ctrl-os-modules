@@ -22,7 +22,7 @@
       ];
       imports = [
         ./checks
-        ./packages
+        ./packages/flakeModule.nix
       ]
       ++
         inputs.nixpkgs.lib.optionals (inputs.nixpkgs.lib.versionAtLeast inputs.nixpkgs.lib.version "25.11")
@@ -30,6 +30,7 @@
             inputs.preCommitHooksNix.flakeModule
             ./checks/pre-commit.nix
           ];
+
       flake.nixosModules = import ./modules;
 
       flake.overlays = rec {
