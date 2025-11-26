@@ -23,19 +23,40 @@
       imports = [
         inputs.preCommitHooksNix.flakeModule
         ./checks
+        ./packages/flakeModule.nix
       ];
       flake.nixosModules = import ./modules;
+
+      flake.overlays = rec {
+        default = vms;
+        vms =
+          _: prev:
+          flake-parts.lib.withSystem prev.stdenv.hostPlatform.system (
+            { config, ... }:
+            {
+              scl = config.packages.scl;
+              OVMF-cloud-hypervisor = config.packages.OVMF-cloud-hypervisor;
+            }
+          );
+      };
 
       perSystem =
         {
           pkgs,
           config,
+          self',
           system,
           ...
         }:
         {
           _module.args.pkgs = import inputs.nixpkgs {
             inherit system;
+            overlays = [
+              (_: _: {
+                scl = self'.packages.scl;
+                OVMF-cloud-hypervisor = self'.packages.OVMF-cloud-hypervisor;
+              })
+            ];
           };
 
           formatter = pkgs.nixfmt-rfc-style;
