@@ -3,20 +3,9 @@
   perSystem =
     { pkgs, lib, ... }:
     {
-      # We mostly check that the module evaluates.
-      checks.developer = pkgs.testers.nixosTest {
-        name = "developer";
-
-        nodes.machine = {
-          imports = [ self.nixosModules.developer ];
-
-          ctrl-os.developer.enable = true;
-        };
-
-        testScript = ''
-          start_all()
-          machine.wait_for_unit("multi-user.target")
-        '';
+      checks = {
+        developer = pkgs.callPackage ./developer.nix { inherit (self) nixosModules; };
+        vms = pkgs.callPackage ./vms.nix { inherit (self) nixosModules; };
       };
 
       pre-commit =

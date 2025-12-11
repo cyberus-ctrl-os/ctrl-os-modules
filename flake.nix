@@ -19,10 +19,12 @@
       systems = [
         "aarch64-linux"
         "x86_64-linux"
+        "aarch64-darwin"
       ];
       imports = [
         inputs.preCommitHooksNix.flakeModule
         ./checks
+        ./packages/flakeModule.nix
       ];
       flake.nixosModules = import ./modules;
 
@@ -30,12 +32,19 @@
         {
           pkgs,
           config,
+          self',
           system,
           ...
         }:
         {
           _module.args.pkgs = import inputs.nixpkgs {
             inherit system;
+            overlays = [
+              (_: _: {
+                scl = self'.packages.scl;
+                OVMF-cloud-hypervisor = self'.packages.OVMF-cloud-hypervisor;
+              })
+            ];
           };
 
           formatter = pkgs.nixfmt-rfc-style;
