@@ -34,19 +34,6 @@
 
       flake.nixosModules = import ./modules;
 
-      flake.overlays = rec {
-        default = vms;
-        vms =
-          _: prev:
-          flake-parts.lib.withSystem prev.stdenv.hostPlatform.system (
-            { config, ... }:
-            {
-              scl = config.packages.scl;
-              OVMF-cloud-hypervisor = config.packages.OVMF-cloud-hypervisor;
-            }
-          );
-      };
-
       perSystem =
         {
           pkgs,
