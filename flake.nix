@@ -21,15 +21,19 @@
         "x86_64-linux"
       ];
       imports = [
-        inputs.preCommitHooksNix.flakeModule
         ./checks
-      ];
+      ]
+      ++
+        inputs.nixpkgs.lib.optionals (inputs.nixpkgs.lib.versionAtLeast inputs.nixpkgs.lib.version "25.11")
+          [
+            inputs.preCommitHooksNix.flakeModule
+            ./checks/pre-commit.nix
+          ];
       flake.nixosModules = import ./modules;
 
       perSystem =
         {
           pkgs,
-          config,
           system,
           ...
         }:
@@ -39,12 +43,6 @@
           };
 
           formatter = pkgs.nixfmt-rfc-style;
-
-          # Common developer tooling. We also use this in the CI.
-          devShells.default = pkgs.mkShell {
-            packages = [ ] ++ config.pre-commit.settings.enabledPackages;
-            shellHook = config.pre-commit.installationScript;
-          };
         };
     };
 }
