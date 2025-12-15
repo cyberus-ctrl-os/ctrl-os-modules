@@ -9,7 +9,7 @@ jobs:
       matrix:
         nixOpts: [
             "", # default: unstable
-            "--override-input nixpkgs https://channels.nixos.org/nixos-25.05/nixexprs.tar.xz",
+            "--override-input nixpkgs https://channels.nixos.org/nixos-25.11/nixexprs.tar.xz",
             "--override-input nixpkgs https://channels.ctrl-os.com/channel/ctrlos-24.05.tar.xz",
           ]
     steps:
