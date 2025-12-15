@@ -19,4 +19,4 @@ jobs:
           extra_nix_config: |
             extra-trusted-public-keys = cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=
             extra-substituters = https://cache.ctrl-os.com/
-      - run: nix -L flake check $nixOpts
+      - run: nix -L flake check ${{ matrix.nixOpts }}
