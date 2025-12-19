@@ -19,9 +19,11 @@
       systems = [
         "aarch64-linux"
         "x86_64-linux"
+        "aarch64-darwin"
       ];
       imports = [
         ./checks
+        ./packages/flakeModule.nix
       ]
       ++
         inputs.nixpkgs.lib.optionals (inputs.nixpkgs.lib.versionAtLeast inputs.nixpkgs.lib.version "25.11")
@@ -29,17 +31,25 @@
             inputs.preCommitHooksNix.flakeModule
             ./checks/pre-commit.nix
           ];
+
       flake.nixosModules = import ./modules;
 
       perSystem =
         {
           pkgs,
+          self',
           system,
           ...
         }:
         {
           _module.args.pkgs = import inputs.nixpkgs {
             inherit system;
+            overlays = [
+              (_: _: {
+                scl = self'.packages.scl;
+                OVMF-cloud-hypervisor = self'.packages.OVMF-cloud-hypervisor;
+              })
+            ];
           };
 
           formatter = pkgs.nixfmt-rfc-style;
