@@ -22,6 +22,7 @@
       ];
       imports = [
         ./checks
+        ./packages/flakeModule.nix
       ]
       ++
         inputs.nixpkgs.lib.optionals (inputs.nixpkgs.lib.versionAtLeast inputs.nixpkgs.lib.version "25.11")
