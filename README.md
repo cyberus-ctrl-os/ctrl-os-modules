@@ -28,3 +28,20 @@ backward-compatible ways.
 |-------------|----------|---------------------------------------------------------|
 | `developer` | **Beta** | Useful settings for developers using CTRL-OS            |
 | `vms`       | **Beta** | Declarative way to run generic VMs in NixOS and CTRL-OS |
+
+## Supported Platforms
+
+There are modules for platform support of certain hardware,
+CTRL-OS supports in addition to the platforms supported by upstream NixOS.
+platforms marked as **Testing** or **Beta** are still in development and may change significantly.
+We also provide installer ISOs for some of the platforms.
+To build the ISO run the following command. The installer name is listed in the table below.
+If the host platform is not equal to the build platform, cross compilation is used.
+
+```nix
+nix build .#packages.<x86_64-linux|aarch64-linux>.<installer name>
+```
+
+| Platform                  | Status   | Description                                           | Installer Name            |
+|---------------------------|----------|-------------------------------------------------------|---------------------------|
+| `nvidia-jetson-orin-nano` | **Beta** | Enables Nvidia Jetson Orin Nano Developer Kit support | `jetsonOrinNanoInstaller` |
