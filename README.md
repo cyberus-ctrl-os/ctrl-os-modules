@@ -24,6 +24,17 @@ These are the modules that are currently available. Modules marked
 significantly. Modules marked **Stable** will only change in
 backward-compatible ways.
 
-| Module      | Status   | Description                                  |
-|-------------|----------|----------------------------------------------|
-| `developer` | **Beta** | Useful settings for developers using CTRL-OS |
+| Module                 | Status   | Description                                                                |
+|------------------------|----------|----------------------------------------------------------------------------|
+| `developer`            | **Beta** | Useful settings for developers using CTRL-OS                               |
+| `nvidiaJetsonOrinNano` | **Beta** | A module, enabling Nvidia Jetson Orin Nano Developer Kits support in NixOS |
+
+
+## Nvidia Jetson Orin Nano installer
+
+The repo contains an installer to enable the [Nvidia Jetson Orin Nano Super Developer Kit](https://www.nvidia.com/de-de/autonomous-machines/embedded-systems/jetson-orin/nano-super-developer-kit/) platform on NixOS in a **Beta** stage.
+To build the installer run:
+
+```nix
+nix build .#packages.<x86_64-linux|aarch64-linux>.jetsonOrinNanoInstaller
+```
