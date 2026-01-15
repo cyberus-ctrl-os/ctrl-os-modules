@@ -14,9 +14,9 @@ jobs:
           ]
     steps:
       - uses: actions/checkout@v5
-      - uses: nixbuild/nix-quick-install-action@v34
+      - uses: samueldr/lix-gha-installer-action@latest
         with:
-          nix_conf: |
+          extra_nix_config: |
             keep-env-derivations = true
             keep-outputs = true
             extra-trusted-public-keys = ctrl-os:baPzGxj33zp/P+GAIJXsr8ss9Law+qEEFViX1+flbv8=
