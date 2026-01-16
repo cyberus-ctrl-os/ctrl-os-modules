@@ -45,6 +45,15 @@ jobs:
           fi
       - name: Build the Modules for ${{ matrix.nixOpts.tag }}
         run: nix -L flake check ${{ matrix.nixOpts.flag }}
+      - name: Build the NixOS installer for Nvidia Jetson Orin Nano devices
+        run: nix -L build .#packages.x86_64-linux.jetsonOrinNanoInstaller
+      - name: Upload the installer as artifact
+        uses: actions/upload-artifact@v6
+        with:
+          name: nvidia-jetson-orin-nano-nixos-${{ github.sha }}
+          path: result/iso/nixos-minimal-*.iso
+          retention-days: 7
+          if-no-files-found: error
       - name: Export Nix Store
         if: always()
         run: |
