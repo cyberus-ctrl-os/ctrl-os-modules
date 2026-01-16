@@ -24,6 +24,7 @@ These are the modules that are currently available. Modules marked
 significantly. Modules marked **Stable** will only change in
 backward-compatible ways.
 
-| Module      | Status   | Description                                  |
-|-------------|----------|----------------------------------------------|
-| `developer` | **Beta** | Useful settings for developers using CTRL-OS |
+| Module      | Status   | Description                                             |
+|-------------|----------|---------------------------------------------------------|
+| `developer` | **Beta** | Useful settings for developers using CTRL-OS            |
+| `vms`       | **Beta** | Declarative way to run generic VMs in NixOS and CTRL-OS |
