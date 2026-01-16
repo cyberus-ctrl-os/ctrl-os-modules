@@ -37,3 +37,37 @@ jobs:
           primary-key: ctrl-os-modules-${{ runner.os }}-${{ matrix.nixOpts.tag }}-${{ github.sha }}
           purge: true
           purge-last-accessed: "432000" # Lets keep he cache for 5 days after the last access
+  build_packages:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: samueldr/lix-gha-installer-action@latest
+        with:
+          extra_nix_config: |
+            keep-env-derivations = true
+            keep-outputs = true
+            extra-trusted-public-keys = ctrl-os:baPzGxj33zp/P+GAIJXsr8ss9Law+qEEFViX1+flbv8=
+            extra-substituters = https://cache.ctrl-os.com/
+      - name: Restore the nix store if available
+        uses: nix-community/cache-nix-action/restore@v6
+        id: nix-cache-restore
+        with:
+          primary-key: ctrl-os-modules-${{ runner.os }}-nvidia-jetson-orin-nano-installer-${{ github.sha }}
+          restore-prefixes-first-match: ctrl-os-modules-${{ runner.os }}-nvidia-jetson-orin-nano-installer
+      - name: Build the NixOS installer for Nvidia Jetson Orin Nano devices
+        run: nix -L build .#packages.x86_64-linux.jetsonOrinNanoInstaller
+      - name: Store the Build Cache always
+        uses: nix-community/cache-nix-action/save@v6
+        if: always() && steps.nix-cache-restore.outputs.hit-primary-key != 'true'
+        id: nix-cache-save
+        with:
+          primary-key: ctrl-os-modules-${{ runner.os }}-nvidia-jetson-orin-nano-installer-${{ github.sha }}
+          purge: true
+          purge-last-accessed: "432000" # Lets keep he cache for 5 days after the last access
+      - name: Upload the installer as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: nvidia-jetson-orin-nano-nixos-${{ github.sha }}
+          path: result/iso/nixos-minimal-*.iso
+          retention-days: 7
+          if-no-files-found: error
