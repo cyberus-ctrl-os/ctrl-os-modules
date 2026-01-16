@@ -10,13 +10,13 @@ jobs:
         nixOpts: [
             { flag: "", tag: "nixos-unstable" },
             { flag: "--override-input nixpkgs https://channels.nixos.org/nixos-25.11/nixexprs.tar.xz", tag: "nixos-25.11" },
-            { flag: "--override-input nixpkgs https://channels.ctrl-os.com/channel/ctrlos-24.05.tar.xz", tag: "nixos-24.04" },
+            { flag: "--override-input nixpkgs https://channels.ctrl-os.com/channel/ctrlos-24.05.tar.xz", tag: "ctrlos-24.05" },
           ]
     steps:
       - uses: actions/checkout@v5
-      - uses: nixbuild/nix-quick-install-action@v34
+      - uses: samueldr/lix-gha-installer-action@latest
         with:
-          nix_conf: |
+          extra_nix_config: |
             keep-env-derivations = true
             keep-outputs = true
             extra-trusted-public-keys = ctrl-os:baPzGxj33zp/P+GAIJXsr8ss9Law+qEEFViX1+flbv8=
