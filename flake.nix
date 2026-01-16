@@ -32,7 +32,7 @@
             ./checks/pre-commit.nix
           ];
 
-      flake.nixosModules = import ./modules;
+      flake.nixosModules = import ./modules inputs.nixpkgs.lib;
 
       perSystem =
         {
@@ -44,12 +44,16 @@
         {
           _module.args.pkgs = import inputs.nixpkgs {
             inherit system;
-            overlays = [
-              (_: _: {
-                scl = self'.packages.scl;
-                OVMF-cloud-hypervisor = self'.packages.OVMF-cloud-hypervisor;
-              })
-            ];
+            overlays =
+              [ ]
+              ++
+                inputs.nixpkgs.lib.optionals (inputs.nixpkgs.lib.versionAtLeast inputs.nixpkgs.lib.version "25.11")
+                  [
+                    (_: _: {
+                      scl = self'.packages.scl;
+                      OVMF-cloud-hypervisor = self'.packages.OVMF-cloud-hypervisor;
+                    })
+                  ];
           };
 
           formatter = pkgs.nixfmt-rfc-style;
