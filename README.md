@@ -16,7 +16,6 @@ Modules follow a simple configuration pattern. Module `foo` has its
 configuration under `ctrl-os.foo`. So to enable module `foo`, you
 typically write `ctrl-os.foo.enable = true`;
 
-
 ## Available Modules
 
 These are the modules that are currently available. Modules marked
@@ -24,7 +23,18 @@ These are the modules that are currently available. Modules marked
 significantly. Modules marked **Stable** will only change in
 backward-compatible ways.
 
-| Module      | Status   | Description                                             |
-|-------------|----------|---------------------------------------------------------|
-| `developer` | **Beta** | Useful settings for developers using CTRL-OS            |
-| `vms`       | **Beta** | Declarative way to run generic VMs in NixOS and CTRL-OS |
+Module documentation lives on
+[docs.ctrl-os.com](https://docs.ctrl-os.com/modules/). Click the
+module link to go directly to the documentation of a specific module.
+
+Modules may not be supported on all releases. We use the following
+status symbols:
+
+- ✅ - Supported
+- 🚧 - Planned/WIP
+- ❌ - Not Planned
+
+| Module                                                             | Status   | Unstable | 26.05 | 24.05 | Description                                  |
+|--------------------------------------------------------------------|----------|----------|-------|-------|----------------------------------------------|
+| [`developer`](https://docs.ctrl-os.com/modules/ctrl-os-developer/) | **Beta** | ✅       | 🚧    | ✅    | Useful settings for developers using CTRL-OS |
+| [`vms`](https://docs.ctrl-os.com/modules/ctrl-os-vms/)             | **Beta** | ✅       | 🚧    | ❌    | Declarative way to run generic VMs           |
