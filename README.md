@@ -38,3 +38,15 @@ status symbols:
 |--------------------------------------------------------------------|----------|----------|-------|-------|----------------------------------------------|
 | [`developer`](https://docs.ctrl-os.com/modules/ctrl-os-developer/) | **Beta** | ✅       | 🚧    | ✅    | Useful settings for developers using CTRL-OS |
 | [`vms`](https://docs.ctrl-os.com/modules/ctrl-os-vms/)             | **Beta** | ✅       | 🚧    | ❌    | Declarative way to run generic VMs           |
+
+## Hardware Support
+
+CTRL-OS works fine on many platforms. Especially Intel/AMD systems
+should in general Just Work. We maintain opinionated hardware support
+for platforms that have sharp edges.
+
+Just like modules, hardware support status depends on the release.
+
+| Platform                | Status      | Unstable | 26.05 | 24.05 |
+|-------------------------|-------------|----------|-------|-------|
+| Nvidia Jetson Orin Nano | **Planned** | 🚧       | 🚧    | ❌    |
