@@ -25,19 +25,19 @@
               (inputs.nixpkgs.lib.nixosSystem {
                 modules = [
                   (
-                    { modulesPath, ... }:
+                    { lib, modulesPath, ... }:
                     {
                       imports = [
                         "${modulesPath}/installer/cd-dvd/installation-cd-minimal.nix"
-                        self.nixosModules.platform
+                        self.nixosModules.hardware
                         self.nixosModules.developer
                       ];
 
                       ctrl-os.developer.enable = true;
-                      ctrl-os.platform = "nvidia-jetson-orin-nano";
-                      nixpkgs.hostPlatform = "aarch64-linux";
+                      ctrl-os.hardware.platform = "nvidia-jetson-orin-nano";
+
                       nixpkgs.buildPlatform = system;
-                      system.stateVersion = "25.11";
+                      system.stateVersion = lib.trivial.release;
                     }
                   )
                 ];

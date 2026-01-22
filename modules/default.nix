@@ -3,6 +3,6 @@ lib:
   developer = import ./developer.nix;
 }
 // lib.optionalAttrs (lib.versionAtLeast lib.version "25.11") {
-  platform = import ./platform.nix;
+  hardware = import ./hardware;
   vms = import ./vms.nix;
 }
