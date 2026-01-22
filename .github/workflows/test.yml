@@ -47,7 +47,7 @@ jobs:
       - name: Build the NixOS installer for Nvidia Jetson Orin Nano devices
         run: nix -L build .#packages.x86_64-linux.jetsonOrinNanoInstaller
       - name: Upload the installer as artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: nvidia-jetson-orin-nano-nixos-${{ github.sha }}
           path: result/iso/nixos-minimal-*.iso
