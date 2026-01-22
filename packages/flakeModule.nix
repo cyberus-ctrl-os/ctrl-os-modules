@@ -25,6 +25,11 @@
       perSystem =
         { pkgs, system, ... }:
         {
+          legacyPackages = {
+            hardware = import ./hardware {
+              inherit pkgs self;
+            };
+          };
           packages = (import ./default.nix { inherit pkgs; }) // {
             jetsonOrinNanoInstaller =
               (inputs.nixpkgs.lib.nixosSystem {
