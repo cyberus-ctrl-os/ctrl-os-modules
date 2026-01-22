@@ -39,7 +39,7 @@
                       ];
 
                       ctrl-os.profiles.developer.enable = true;
-                      ctrl-os.platform = "nvidia-jetson-orin-nano";
+                      ctrl-os.platform = "nvidia-jetson-orin-nano-super";
                       nixpkgs.hostPlatform = "aarch64-linux";
                       nixpkgs.buildPlatform = system;
                       system.stateVersion = "25.11";

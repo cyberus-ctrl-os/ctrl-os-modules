@@ -3,7 +3,7 @@ let
   platform = config.ctrl-os.platform;
 in
 {
-  config = lib.mkIf (platform == "nvidia-jetson-orin-nano") {
+  config = lib.mkIf (platform == "nvidia-jetson-orin-nano-super") {
 
     nixpkgs.hostPlatform = "aarch64-linux";
 
