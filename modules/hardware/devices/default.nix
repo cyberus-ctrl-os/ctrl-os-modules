@@ -9,9 +9,9 @@ let
   deviceDirs = builtins.attrValues deviceModules;
 in
 {
-  options.ctrl-os.platform = lib.mkOption {
+  options.ctrl-os.hardware.device = lib.mkOption {
     type = with lib.types; nullOr (enum devices);
-    description = "The platform, we are running on.";
+    description = "Selects a hardware device profile to use by device name.";
     default = null;
   };
 
