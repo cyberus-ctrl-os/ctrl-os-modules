@@ -3,10 +3,10 @@
 let
   platform = config.ctrl-os.platform;
   inherit
-    (import ../lib { inherit lib; })
+    (import ../../../lib { inherit lib; })
     getVendorsModules
-  ;
-  deviceModules = getVendorsModules ./platforms/devices;
+    ;
+  deviceModules = getVendorsModules ./.;
   devices = builtins.attrNames deviceModules;
 in
 {
