@@ -1,11 +1,11 @@
 { nixosModules, testers }:
 testers.nixosTest {
-  name = "developer";
+  name = "profiles.developer";
 
   nodes.machine = {
-    imports = [ nixosModules.developer ];
+    imports = [ nixosModules.profiles ];
 
-    ctrl-os.developer.enable = true;
+    ctrl-os.profiles.developer.enable = true;
   };
 
   testScript = ''
