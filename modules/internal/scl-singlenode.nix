@@ -92,7 +92,8 @@ in
     easyCerts = mkOption {
       description = "Whether to generate TLS and mTLS certificates automatically for the service";
       type = types.bool;
-      default = true;
+      default = cfg.enable;
+      defaultText = "config.services.scl-singlenode.enable";
     };
 
     logLevel = mkOption {
@@ -288,7 +289,8 @@ in
 
     imageRegistry = {
       enable = mkEnableOption "Enable the simple virtual machine image registry" // {
-        default = true;
+        default = cfg.enable;
+        defaultText = "config.services.scl-singlenode.enable";
       };
 
       dataDir = mkOption {
