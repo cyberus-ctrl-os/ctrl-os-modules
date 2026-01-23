@@ -23,35 +23,13 @@
       };
 
       perSystem =
-        { pkgs, system, ... }:
+        { pkgs, ... }:
         {
           legacyPackages = {
             hardware = import ./hardware {
               inherit pkgs self;
             };
           };
-          packages = (import ./default.nix { inherit pkgs; }) // {
-            jetsonOrinNanoInstaller =
-              (inputs.nixpkgs.lib.nixosSystem {
-                modules = [
-                  (
-                    { modulesPath, ... }:
-                    {
-                      imports = [
-                        "${modulesPath}/installer/cd-dvd/installation-cd-minimal.nix"
-                        self.nixosModules.hardware
-                        self.nixosModules.profiles
-                      ];
-
-                      ctrl-os.profiles.developer.enable = true;
-                      ctrl-os.hardware.device = "nvidia-jetson-orin-nano-super";
-                      nixpkgs.hostPlatform = "aarch64-linux";
-                      nixpkgs.buildPlatform = system;
-                      system.stateVersion = "25.11";
-                    }
-                  )
-                ];
-              }).config.system.build.isoImage;
-          };
+          packages = import ./default.nix { inherit pkgs; };
         };
     }
