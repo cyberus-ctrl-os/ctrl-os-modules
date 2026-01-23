@@ -1,11 +1,10 @@
 { lib, ... }:
 
 let
-  inherit
-    (import ../lib { inherit lib; })
+  inherit (import ../../../lib { inherit lib; })
     getVendorsModules
-  ;
-  deviceModules = getVendorsModules ./platforms/devices;
+    ;
+  deviceModules = getVendorsModules ./.;
   devices = builtins.attrNames deviceModules;
   deviceDirs = builtins.attrValues deviceModules;
 in
