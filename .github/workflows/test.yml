@@ -1,7 +1,10 @@
 name: "Test"
 on:
-  pull_request:
   push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:            # For manual runs on branches
 jobs:
   tests:
     runs-on: ubuntu-latest
@@ -21,19 +24,30 @@ jobs:
             keep-outputs = true
             extra-trusted-public-keys = ctrl-os:baPzGxj33zp/P+GAIJXsr8ss9Law+qEEFViX1+flbv8=
             extra-substituters = https://cache.ctrl-os.com/
-      - name: Restore the nix store if available
-        uses: nix-community/cache-nix-action/restore@v6
-        id: nix-cache-restore
+      - name: Restore cache
+        id: cache
+        uses: actions/cache@v5
         with:
-          primary-key: ctrl-os-modules-${{ runner.os }}-${{ matrix.nixOpts.tag }}-${{ github.sha }}
-          restore-prefixes-first-match: ctrl-os-modules-${{ runner.os }}-${{ matrix.nixOpts.tag }}
+          path: .cache
+          key: cache-${{ matrix.nixOpts.tag }}-${{ github.ref_name }}-${{ github.run_id }}
+          restore-keys: |
+            cache-${{ matrix.nixOpts.tag }}-${{ github.ref_name }}-
+            cache-${{ matrix.nixOpts.tag }}-
+      - name: Repopulate Nix Store
+        if: steps.cache.outputs.cache-hit
+        run: |
+          if [ -d .cache/nix-store ]; then
+            # Paths we built in earlier runs are not signed.
+            nix path-info --store file://$PWD/.cache/nix-store --all | nix copy --no-check-sigs --from file://$PWD/.cache/nix-store --stdin
+          else
+            echo No cache to restore.
+          fi
       - name: Build the Modules for ${{ matrix.nixOpts.tag }}
         run: nix -L flake check ${{ matrix.nixOpts.flag }}
-      - name: Store the Build Cache always
-        uses: nix-community/cache-nix-action/save@v6
-        if: always() && steps.nix-cache-restore.outputs.hit-primary-key != 'true'
-        id: nix-cache-save
-        with:
-          primary-key: ctrl-os-modules-${{ runner.os }}-${{ matrix.nixOpts.tag }}-${{ github.sha }}
-          purge: true
-          purge-last-accessed: "432000" # Lets keep he cache for 5 days after the last access
+      - name: Export Nix Store
+        if: always()
+        run: |
+          mkdir -p .cache/nix-store
+          # We never clear paths from the cache. Github will evict the
+          # cached file if it is too large (>10GB).
+          nix path-info --all | nix copy --to file://$PWD/.cache/nix-store --stdin
