@@ -279,7 +279,7 @@ in
                 aarch64-linux = "FV/CLOUDHV_EFI.fd";
                 x86_64-linux = "FV/CLOUDHV.fd";
               }
-              ."${pkgs.system}";
+              ."${pkgs.stdenv.hostPlatform.system}";
             defaultText = "FV/CLOUDHV.fd";
           };
         };

@@ -5,7 +5,7 @@
   nixosModules,
   openssh,
   qemu-utils,
-  runCommandNoCC,
+  runCommand,
   sshpass,
   testers,
 }:
@@ -15,7 +15,7 @@ let
     url = "https://cloud-images.ubuntu.com/noble/20251113/noble-server-cloudimg-amd64.img";
     sha256 = "sha256-kOf6/3319QlDCJ31d4LA0diJOPhr2JUghnxZVf4mvIE=";
   };
-  imageRaw = runCommandNoCC "convert-RAW" { } ''
+  imageRaw = runCommand "convert-RAW" { } ''
     ${lib.getExe' qemu-utils "qemu-img"} convert -O raw ${image} $out
   '';
   # The IP to access the virtual machine from the host
