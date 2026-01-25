@@ -32,7 +32,7 @@
             ./checks/pre-commit.nix
           ];
 
-      flake.nixosModules = import ./modules inputs.nixpkgs.lib;
+      flake.nixosModules = import ./modules;
 
       perSystem =
         {
