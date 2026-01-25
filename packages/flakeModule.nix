@@ -34,12 +34,12 @@
                     {
                       imports = [
                         "${modulesPath}/installer/cd-dvd/installation-cd-minimal.nix"
-                        self.nixosModules.platform
+                        self.nixosModules.hardware
                         self.nixosModules.profiles
                       ];
 
                       ctrl-os.profiles.developer.enable = true;
-                      ctrl-os.platform = "nvidia-jetson-orin-nano-super";
+                      ctrl-os.hardware.device = "nvidia-jetson-orin-nano-super";
                       nixpkgs.hostPlatform = "aarch64-linux";
                       nixpkgs.buildPlatform = system;
                       system.stateVersion = "25.11";
