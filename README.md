@@ -36,7 +36,7 @@ status symbols:
 
 | Module                                                             | Status   | Unstable | 26.05 | 24.05 | Description                                  |
 |--------------------------------------------------------------------|----------|----------|-------|-------|----------------------------------------------|
-| [`developer`](https://docs.ctrl-os.com/modules/ctrl-os-developer/) | **Beta** | ✅       | 🚧    | ✅    | Useful settings for developers using CTRL-OS |
+| [`profiles`](https://docs.ctrl-os.com/modules/ctrl-os-profiles/)   | **Beta** | ✅       | 🚧    | ✅    | Different opinionated settings for CTRL-OS   |
 | [`vms`](https://docs.ctrl-os.com/modules/ctrl-os-vms/)             | **Beta** | ✅       | 🚧    | ❌    | Declarative way to run generic VMs           |
 
 ## Hardware Support
