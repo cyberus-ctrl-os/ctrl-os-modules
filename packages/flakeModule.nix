@@ -26,9 +26,10 @@
         { pkgs, ... }:
         {
           legacyPackages = {
-            hardware = import ./hardware {
-              inherit pkgs self;
-            };
+            hardware =
+              # XXX Installer packages, TBD
+              (import ./hardware { inherit pkgs self; })
+            ;
           };
           packages = import ./default.nix { inherit pkgs; };
         };
