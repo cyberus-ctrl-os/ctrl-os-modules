@@ -13,5 +13,6 @@ lib.makeScope pkgs.newScope (
   in
   # XXX package structure TBD
   {
+    nvidia.tegra = callPackage ./nvidia/tegra { };
   }
 )
