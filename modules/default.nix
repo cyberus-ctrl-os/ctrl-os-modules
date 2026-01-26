@@ -1,7 +1,5 @@
-lib:
 {
-  developer = import ./developer.nix;
-}
-// lib.optionalAttrs (lib.versionAtLeast lib.version "25.11") {
+  hardware = import ./hardware;
+  profiles = import ./profiles;
   vms = import ./vms.nix;
 }
