@@ -29,7 +29,8 @@
             hardware =
               # XXX Installer packages, TBD
               (import ./hardware { inherit pkgs self; })
-            ;
+              # XXX Actual packages, structure TBD too
+              // (pkgs.callPackage ./hardware/packages.nix { });
           };
           packages = import ./default.nix { inherit pkgs; };
         };
