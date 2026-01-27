@@ -18,6 +18,11 @@ jobs:
           ]
     steps:
       - uses: actions/checkout@v5
+      - name: Scrounge-up some more space
+        uses: samueldr/more-space-action@97048bd0df83fb05b5257887bdbaffc848887673 # @latest on 2026-01-27
+        with:
+          enable-lvm-span: true
+          lvm-span-mountpoint: /nix
       - uses: samueldr/lix-gha-installer-action@latest
         with:
           extra_nix_config: |
