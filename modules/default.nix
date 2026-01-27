@@ -1,4 +1,4 @@
 {
-  developer = import ./developer.nix;
+  profiles = import ./profiles;
   vms = import ./vms.nix;
 }
