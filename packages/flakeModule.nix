@@ -1,4 +1,9 @@
-{ withSystem, inputs, ... }:
+{
+  withSystem,
+  inputs,
+  self,
+  ...
+}:
 { }
 //
   inputs.nixpkgs.lib.optionalAttrs
@@ -20,6 +25,11 @@
       perSystem =
         { pkgs, ... }:
         {
+          legacyPackages = {
+            hardware = import ./hardware {
+              inherit pkgs self;
+            };
+          };
           packages = import ./default.nix { inherit pkgs; };
         };
     }
