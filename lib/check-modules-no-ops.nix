@@ -110,11 +110,7 @@ let
             # Note that `defaultText` *very often* implies the option will not evaluate
             # when the modules is not configured entirely. So skip those values...
             definitionLocations' =
-              if option ? defaultText then
-                "(skipped possibly un-evaluatable option...)"
-              #then "(skipped internal)"
-              else
-                option.files;
+              if option ? defaultText then "(skipped possibly un-evaluatable option...)" else option.files;
             # Directly inherit values we can inherit.
             inherit (option)
               declarationPositions
