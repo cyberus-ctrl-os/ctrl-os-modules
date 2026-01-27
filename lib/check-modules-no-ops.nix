@@ -69,18 +69,18 @@ let
   walkOptions' =
     {
       options,
-      path ? [ ],
+      attrPath ? [ ],
       fn,
     }:
     builtins.mapAttrs (
       name: value:
       let
-        currPath = path ++ [ name ];
+        currPath = attrPath ++ [ name ];
       in
       if builtins.isAttrs value && (value._type or null != "option") then
         walkOptions' {
           options = value;
-          path = currPath;
+          attrPath = currPath;
           inherit fn;
         }
       else
@@ -156,7 +156,8 @@ let
     optionsA: optionsB:
 
     walkOptions (
-      path: _: lib.attrByPath path "« Options ${builtins.toJSON path} missing in optionsB... »" optionsB
+      attrPath: _:
+      lib.attrByPath attrPath "« Options ${builtins.toJSON attrPath} missing in optionsB... »" optionsB
     ) optionsA;
 
   # Returns an attribute set with `{ a = ...; b = ...; }` where `a` is the
