@@ -4,7 +4,8 @@
   # The inputs are only used for checks. We test this flake with
   # different Nixpkgs versions and with CTRL-OS in the CI.
   inputs = {
-    nixpkgs.url = "https://channels.nixos.org/nixos-unstable/nixexprs.tar.xz";
+    nixpkgs.url = "github:nixos/nixpkgs/c0b0e0fddf73fd517c3471e546c0df87a42d53f4";
+
     preCommitHooksNix = {
       url = "github:cachix/git-hooks.nix";
       inputs.nixpkgs.follows = "nixpkgs";

@@ -34,6 +34,28 @@
                         self.nixosModules.hardware
                         self.nixosModules.developer
                       ];
+                      
+                      nix.settings = {
+                        trusted-users = [ "root" "julian" ];
+                      };
+
+                      users.users.julian = {
+                        description = "Julian Stecklina";
+                        isNormalUser = true;
+                        extraGroups = [ "wheel" "video" "kvm" "networkmanager" "dialout" "libvirtd" "docker" "vboxusers" ];
+                        createHome = true;
+
+                        openssh.authorizedKeys.keys = [
+                          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIErZm6k0S7NahikKEbTQlrOrsLKgr9X+iNoUsGeqDV0F julian@canaan.xn--pl-wia.net"
+                          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEdmNCi+XT6V9hrvJMHbnQfGY23zcHfnxjqaq4ZG3k27 julian@second-temple"
+                          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICeIiTyh7jJD9x8N64kgUGDgeo3F96i5Av3tHvwePHq5 julian@babylon"
+                        ];
+
+                        hashedPassword = "$6$d4Q85PrE$m/mrZqoe6R4oi.2NHoB6gJicQr85yKtnmZBXUeyap7KPGKCp9SLqfPOprY12cJtjCcM3bsXTUVzS3O6n8VNTx0";
+                      };
+
+                      services.openssh.enable = true;
+
 
                       # The option names are weird.
                       system.installer.channel.enable = false;
@@ -44,6 +66,9 @@
 
                       # Cross-compiling was broken, but we also don't need it.
                       networking.modemmanager.enable = false;
+
+                      # Networkmanager still pulls in modemmanager. Why?
+                      networking.networkmanager.enable = lib.mkForce false;
 
                       nixpkgs.buildPlatform = system;
                       system.stateVersion = lib.trivial.release;
