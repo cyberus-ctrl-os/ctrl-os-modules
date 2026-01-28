@@ -30,24 +30,6 @@ jobs:
             keep-outputs = true
             extra-trusted-public-keys = ctrl-os:baPzGxj33zp/P+GAIJXsr8ss9Law+qEEFViX1+flbv8=
             extra-substituters = https://cache.ctrl-os.com/
-      - name: Restore cache
-        id: cache
-        uses: actions/cache@v5
-        with:
-          path: .cache
-          key: cache-${{ matrix.nixOpts.tag }}-${{ github.ref_name }}-${{ github.run_id }}
-          restore-keys: |
-            cache-${{ matrix.nixOpts.tag }}-${{ github.ref_name }}-
-            cache-${{ matrix.nixOpts.tag }}-
-      - name: Repopulate Nix Store
-        if: steps.cache.outputs.cache-hit
-        run: |
-          if [ -d .cache/nix-store ]; then
-            # Paths we built in earlier runs are not signed.
-            nix path-info --store file://$PWD/.cache/nix-store --all | nix copy --no-check-sigs --from file://$PWD/.cache/nix-store --stdin
-          else
-            echo No cache to restore.
-          fi
       - name: Build the Modules for ${{ matrix.nixOpts.tag }}
         run: nix -L flake check ${{ matrix.nixOpts.flag }}
       - name: Build the NixOS installer for Nvidia Jetson Orin Nano devices
@@ -59,10 +41,3 @@ jobs:
           path: result/iso/nixos-minimal-*.iso
           retention-days: 7
           if-no-files-found: error
-      - name: Export Nix Store
-        if: always()
-        run: |
-          mkdir -p .cache/nix-store
-          # We never clear paths from the cache. Github will evict the
-          # cached file if it is too large (>10GB).
-          nix path-info --all | nix copy --to file://$PWD/.cache/nix-store --stdin
