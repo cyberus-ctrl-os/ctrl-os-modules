@@ -1,9 +1,10 @@
-{ lib, ... }:
+{ config, lib, ... }:
 
 let
   inherit (import ../../../lib { inherit lib; })
     getVendorsModules
     ;
+  cfg = config.ctrl-os.hardware;
   deviceModules = getVendorsModules ./.;
   devices = builtins.attrNames deviceModules;
   deviceDirs = builtins.attrValues deviceModules;
@@ -14,6 +15,16 @@ in
     description = "Selects a hardware device profile to use by device name.";
     default = null;
   };
+
+  # Create `config.ctrl-os.hardware.devices.${name}.enable` for every device.
+  # The option can be used internally as needed.
+  options.ctrl-os.hardware.devices = builtins.mapAttrs (name: _: {
+    enable = lib.mkEnableOption "device support for the ${name}" // {
+      default = cfg.device == name;
+      internal = true;
+      readOnly = true;
+    };
+  }) deviceModules;
 
   imports = deviceDirs;
 }
