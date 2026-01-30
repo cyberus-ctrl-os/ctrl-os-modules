@@ -16,6 +16,13 @@ in
     default = null;
   };
 
+  # Expose the `deviceList` for programmatic usage.
+  options.ctrl-os.hardware.deviceList = lib.mkOption {
+    default = devices;
+    readOnly = true;
+    internal = true;
+  };
+
   # Create `config.ctrl-os.hardware.devices.${name}.enable` for every device.
   # The option can be used internally as needed.
   options.ctrl-os.hardware.devices = builtins.mapAttrs (name: _: {
