@@ -4,6 +4,14 @@ let
   cfg = config.ctrl-os.hardware.devices.nvidia-jetson-orin-nano-super;
 in
 {
+  options = {
+    ctrl-os.hardware.devices.nvidia-jetson-orin-nano-super = {
+      enableOotModules = lib.mkEnableOption "the NVIDIA Out-Of-Tree kernel modules" // {
+        default = true;
+      };
+    };
+  };
+
   config = lib.mkIf cfg.enable {
     nixpkgs.hostPlatform = "aarch64-linux";
 
@@ -14,6 +22,12 @@ in
       # Enable USB support for USB Boot
       "xhci-tegra"
       "phy-tegra-xusb"
+    ];
+
+    boot.extraModulePackages = lib.mkMerge [
+      (lib.mkIf cfg.enableOotModules [
+        (config.boot.kernelPackages.callPackage ./nvidia-oot { })
+      ])
     ];
   };
 }
