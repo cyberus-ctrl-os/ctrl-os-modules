@@ -56,7 +56,8 @@
                   ];
           };
 
-          formatter = pkgs.nixfmt-rfc-style;
+          # CTRL-OS 24.05 doesn't have this package.
+          formatter = pkgs.nixfmt-tree or null;
         };
     };
 }

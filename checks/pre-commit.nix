@@ -31,7 +31,7 @@
                 enable = true;
                 raw.entry = " --indent 2";
               };
-              nixfmt-rfc-style.enable = true;
+              nixfmt.enable = true;
               deadnix.enable = true;
               shellcheck.enable = true;
               trim-trailing-whitespace.enable = true;
