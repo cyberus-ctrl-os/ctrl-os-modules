@@ -1,10 +1,10 @@
 { config, lib, ... }:
+
 let
-  device = config.ctrl-os.hardware.device;
+  cfg = config.ctrl-os.hardware.devices.nvidia-jetson-orin-nano-super;
 in
 {
-  config = lib.mkIf (device == "nvidia-jetson-orin-nano-super") {
-
+  config = lib.mkIf cfg.enable {
     nixpkgs.hostPlatform = "aarch64-linux";
 
     boot.initrd.availableKernelModules = [
