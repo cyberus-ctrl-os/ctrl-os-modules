@@ -26,8 +26,18 @@ in
 
     boot.extraModulePackages = lib.mkMerge [
       (lib.mkIf cfg.enableOotModules [
-        (config.boot.kernelPackages.callPackage ./nvidia-oot { })
+        config.boot.kernelPackages.nvidia-oot
       ])
+    ];
+
+    nixpkgs.overlays = [
+      (final: super: {
+        kernelPackagesExtensions = (super.kernelPackagesExtensions or []) ++ [
+          (kFinal: kSuper: {
+            nvidia-oot = kFinal.callPackage ./nvidia-oot { };
+          })
+        ];
+      })
     ];
   };
 }
