@@ -14,11 +14,11 @@
   #     })
   srcs ?
     let
-      rev = "rel-36_eng_2026-01-04";
+      rev = "jetson_36.5";
       repos = {
         "linux-hwpm" = "sha256-LrCtuQIbHxBibJaMnrNYEAegtezUDUPGiHJDW+0qHA8=";
         "linux-nvgpu" = "sha256-zvnTygjF8BUNxaqcU4Mt6kAwngFpArM5timpjw074uQ=";
-        "linux-nv-oot" = "sha256-Vt4ef0GIFpk34IPCIL7/R6Jsssd90GXLKonIY8P4e5s=";
+        "linux-nv-oot" = "sha256-6sqz+yiG8VfJ5/QHn13a60TKqdwl1LuJfV3jCPoJxp4=";
       };
     in
     builtins.mapAttrs (
