@@ -58,7 +58,7 @@ kernel.stdenv.mkDerivation (finalAttrs: {
   nativeBuildInputs = kernel.moduleBuildDependencies;
 
   postPatch = ''
-    printf '\n:: Disabling nvethernet driver...\n'
+    printf '\n :: Disabling nvethernet driver...\n'
     # Not needed on supported hardware, requires additional repository setup.
     echo "# disabled" > "$workspace/linux-nv-oot/drivers/net/ethernet/nvidia/nvethernet/Makefile"
   '';
@@ -186,7 +186,6 @@ kernel.stdenv.mkDerivation (finalAttrs: {
     let
       replacements = {
         "buildFlags" = "installFlags installTargets";
-        "buildPhase" = "installPhase";
         "postBuild" = "postInstall";
         "preBuild" = "preInstall";
         "Building" = "Installing";
