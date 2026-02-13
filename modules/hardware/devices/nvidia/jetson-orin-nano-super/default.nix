@@ -30,6 +30,9 @@ in
       ])
     ];
 
+    # We can add the proprietary packages to the overlay even without enabling the
+    # *configuration* for proprietary packages. This leaves it up to the end-user
+    # to use those proprietary packages.
     nixpkgs.overlays = [
       (final: super: {
         kernelPackagesExtensions = (super.kernelPackagesExtensions or []) ++ [
@@ -38,6 +41,12 @@ in
           })
         ];
         nvidia-jetson-orin-nano-super = {
+          nvidia-l4t = final.callPackage ./nvidia-l4t { };
+          nvidia-l4t-firmware = final.callPackage ./nvidia-l4t-firmware {
+            inherit (final.nvidia-jetson-orin-nano-super)
+              nvidia-l4t
+              ;
+          };
           nvidia-l4t-kernelPackages = final.linuxPackagesFor final.nvidia-jetson-orin-nano-super.nvidia-l4t-kernel;
           nvidia-l4t-kernel = final.callPackage ./nvidia-l4t-kernel {
             kernelPatches = [

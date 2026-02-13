@@ -1,0 +1,290 @@
+{
+  "t234": {
+    "36.5.0": {
+      "platform": "t234",
+      "arch": "arm64",
+      "sdk": "36.5.0",
+      "release": "36.5.0-20260115194252",
+      "date": {
+        "year": "2026",
+        "month": "01",
+        "day": "15",
+        "hour": "19",
+        "minute": "42",
+        "seconds": "52"
+      },
+      "packages": {
+        "nvidia-l4t-dla-compiler": {
+          "name": "nvidia-l4t-dla-compiler_36.5.0-20260115194252_arm64.deb",
+          "url": "https://repo.download.nvidia.com/jetson/common/pool/main/n/nvidia-l4t-dla-compiler/nvidia-l4t-dla-compiler_36.5.0-20260115194252_arm64.deb",
+          "hash": "sha256-qquGTahUBBD5xpyMqIbMeZAOVqHnx3ptGPYA+007COo="
+        },
+        "nvidia-l4t-gstreamer": {
+          "name": "nvidia-l4t-gstreamer_36.5.0-20260115194252_arm64.deb",
+          "url": "https://repo.download.nvidia.com/jetson/common/pool/main/n/nvidia-l4t-gstreamer/nvidia-l4t-gstreamer_36.5.0-20260115194252_arm64.deb",
+          "hash": "sha256-GIGJ4AWuuURaozE0VzBWz4KyA6mJwz51+meY+4Jl4+g="
+        },
+        "nvidia-l4t-jetson-multimedia-api": {
+          "name": "nvidia-l4t-jetson-multimedia-api_36.5.0-20260115194252_arm64.deb",
+          "url": "https://repo.download.nvidia.com/jetson/common/pool/main/n/nvidia-l4t-jetson-multimedia-api/nvidia-l4t-jetson-multimedia-api_36.5.0-20260115194252_arm64.deb",
+          "hash": "sha256-cPTdr+L3hn3BV8c5lR8i/t2nfEaeydLeU3NRBsP6wUI="
+        },
+        "nvidia-igx-bootloader": {
+          "name": "nvidia-igx-bootloader_36.5.0-20260115194252_arm64.deb",
+          "url": "https://repo.download.nvidia.com/jetson/t234/pool/main/n/nvidia-igx-bootloader/nvidia-igx-bootloader_36.5.0-20260115194252_arm64.deb",
+          "hash": "sha256-tigc6gOhCQmHFJygQlpzK5AYfKCj/rHdQMhw52xdB8w="
+        },
+        "nvidia-igx-oem-config": {
+          "name": "nvidia-igx-oem-config_36.5.0-20260115194252_arm64.deb",
+          "url": "https://repo.download.nvidia.com/jetson/t234/pool/main/n/nvidia-igx-oem-config/nvidia-igx-oem-config_36.5.0-20260115194252_arm64.deb",
+          "hash": "sha256-IefkWaGElnOMkbOkjLbaw9bcoWvGgDkDvGSJzl6fOmI="
+        },
+        "nvidia-igx-systemd-reboot-hooks": {
+          "name": "nvidia-igx-systemd-reboot-hooks_36.5.0-20260115194252_arm64.deb",
+          "url": "https://repo.download.nvidia.com/jetson/t234/pool/main/n/nvidia-igx-systemd-reboot-hooks/nvidia-igx-systemd-reboot-hooks_36.5.0-20260115194252_arm64.deb",
+          "hash": "sha256-JcbBABLQDv9fm7IttlYcr2Q4s+KGB/GgFcvM+oU28xk="
+        },
+        "nvidia-l4t-3d-core": {
+          "name": "nvidia-l4t-3d-core_36.5.0-20260115194252_arm64.deb",
+          "url": "https://repo.download.nvidia.com/jetson/t234/pool/main/n/nvidia-l4t-3d-core/nvidia-l4t-3d-core_36.5.0-20260115194252_arm64.deb",
+          "hash": "sha256-kQsWcRzRTzlplHXkLB6TFq1abPcluRQvXruWr3vPSdc="
+        },
+        "nvidia-l4t-apt-source": {
+          "name": "nvidia-l4t-apt-source_36.5.0-20260115194252_arm64.deb",
+          "url": "https://repo.download.nvidia.com/jetson/t234/pool/main/n/nvidia-l4t-apt-source/nvidia-l4t-apt-source_36.5.0-20260115194252_arm64.deb",
+          "hash": "sha256-UNPQ+YHl7WxG0BnH2VrAuK7fMpws04HEMnrCg1HaohU="
+        },
+        "nvidia-l4t-bootloader": {
+          "name": "nvidia-l4t-bootloader_36.5.0-20260115194252_arm64.deb",
+          "url": "https://repo.download.nvidia.com/jetson/t234/pool/main/n/nvidia-l4t-bootloader/nvidia-l4t-bootloader_36.5.0-20260115194252_arm64.deb",
+          "hash": "sha256-081SSTengnm2DGjjqTloOacnxPqD/YCugOF0n21aASc="
+        },
+        "nvidia-l4t-camera": {
+          "name": "nvidia-l4t-camera_36.5.0-20260115194252_arm64.deb",
+          "url": "https://repo.download.nvidia.com/jetson/t234/pool/main/n/nvidia-l4t-camera/nvidia-l4t-camera_36.5.0-20260115194252_arm64.deb",
+          "hash": "sha256-e1TmLOVLCSiNpPLZL6+K1cPjmfseRcMfXi1lQ2gAjw0="
+        },
+        "nvidia-l4t-configs": {
+          "name": "nvidia-l4t-configs_36.5.0-20260115194252_arm64.deb",
+          "url": "https://repo.download.nvidia.com/jetson/t234/pool/main/n/nvidia-l4t-configs/nvidia-l4t-configs_36.5.0-20260115194252_arm64.deb",
+          "hash": "sha256-7QK/XUFdN+NY0H12Uao2lywon33EW+j/anbSMLb4v6E="
+        },
+        "nvidia-l4t-core": {
+          "name": "nvidia-l4t-core_36.5.0-20260115194252_arm64.deb",
+          "url": "https://repo.download.nvidia.com/jetson/t234/pool/main/n/nvidia-l4t-core/nvidia-l4t-core_36.5.0-20260115194252_arm64.deb",
+          "hash": "sha256-88AvdAJc09ra2x4tvJekGWP4ZGInZCfD1Xi4y5lMVtY="
+        },
+        "nvidia-l4t-cuda-utils": {
+          "name": "nvidia-l4t-cuda-utils_36.5.0-20260115194252_arm64.deb",
+          "url": "https://repo.download.nvidia.com/jetson/t234/pool/main/n/nvidia-l4t-cuda-utils/nvidia-l4t-cuda-utils_36.5.0-20260115194252_arm64.deb",
+          "hash": "sha256-p/SEGxH0xM0VUISRiDoTSoamxROpK6V8uOs1REmRcyo="
+        },
+        "nvidia-l4t-cuda": {
+          "name": "nvidia-l4t-cuda_36.5.0-20260115194252_arm64.deb",
+          "url": "https://repo.download.nvidia.com/jetson/t234/pool/main/n/nvidia-l4t-cuda/nvidia-l4t-cuda_36.5.0-20260115194252_arm64.deb",
+          "hash": "sha256-i3KR8rIA1URZ2rSK4it6BHvT0yVb9+Ra1L7rMO4Kvdg="
+        },
+        "nvidia-l4t-dgpu-tools": {
+          "name": "nvidia-l4t-dgpu-tools_36.5.0-20260115194252_arm64.deb",
+          "url": "https://repo.download.nvidia.com/jetson/t234/pool/main/n/nvidia-l4t-dgpu-tools/nvidia-l4t-dgpu-tools_36.5.0-20260115194252_arm64.deb",
+          "hash": "sha256-Ofo+qOJtHbsPgtdiJeU/LIaVIhlGzjT5XmATYCHohIk="
+        },
+        "nvidia-l4t-display-kernel_5.15.185-tegra": {
+          "name": "nvidia-l4t-display-kernel_5.15.185-tegra-36.5.0-20260115194252_arm64.deb",
+          "url": "https://repo.download.nvidia.com/jetson/t234/pool/main/n/nvidia-l4t-display-kernel/nvidia-l4t-display-kernel_5.15.185-tegra-36.5.0-20260115194252_arm64.deb",
+          "hash": "sha256-zBSlMVp0NN1iR/jvPIWLzJMLXRp9H2QsYfPqJFqUgyY="
+        },
+        "nvidia-l4t-factory-service": {
+          "name": "nvidia-l4t-factory-service_36.5.0-20260115194252_arm64.deb",
+          "url": "https://repo.download.nvidia.com/jetson/t234/pool/main/n/nvidia-l4t-factory-service/nvidia-l4t-factory-service_36.5.0-20260115194252_arm64.deb",
+          "hash": "sha256-QXXj8hYVRgd979Olly7oWtX9EPw3rXT0gs7UWZJVCcU="
+        },
+        "nvidia-l4t-firmware": {
+          "name": "nvidia-l4t-firmware_36.5.0-20260115194252_arm64.deb",
+          "url": "https://repo.download.nvidia.com/jetson/t234/pool/main/n/nvidia-l4t-firmware/nvidia-l4t-firmware_36.5.0-20260115194252_arm64.deb",
+          "hash": "sha256-MKwWdujHBQb2LcOKNuZ2aC6cdR/KwdB9ciXTCRF1K5Q="
+        },
+        "nvidia-l4t-gbm": {
+          "name": "nvidia-l4t-gbm_36.5.0-20260115194252_arm64.deb",
+          "url": "https://repo.download.nvidia.com/jetson/t234/pool/main/n/nvidia-l4t-gbm/nvidia-l4t-gbm_36.5.0-20260115194252_arm64.deb",
+          "hash": "sha256-+Bjht2jQy30F4IBBV7zLA9CPus1ZzaUBpnDvJojGAyU="
+        },
+        "nvidia-l4t-graphics-demos": {
+          "name": "nvidia-l4t-graphics-demos_36.5.0-20260115194252_arm64.deb",
+          "url": "https://repo.download.nvidia.com/jetson/t234/pool/main/n/nvidia-l4t-graphics-demos/nvidia-l4t-graphics-demos_36.5.0-20260115194252_arm64.deb",
+          "hash": "sha256-ndJU7ogDVdr5nPHcajDnnqgGCmfESqqWFJZrXtZAom4="
+        },
+        "nvidia-l4t-init": {
+          "name": "nvidia-l4t-init_36.5.0-20260115194252_arm64.deb",
+          "url": "https://repo.download.nvidia.com/jetson/t234/pool/main/n/nvidia-l4t-init/nvidia-l4t-init_36.5.0-20260115194252_arm64.deb",
+          "hash": "sha256-CDqeubRiUHMwn0Z9SoWDPv12mKdqF1obxAWEqKml18Y="
+        },
+        "nvidia-l4t-initrd": {
+          "name": "nvidia-l4t-initrd_36.5.0-20260115194252_arm64.deb",
+          "url": "https://repo.download.nvidia.com/jetson/t234/pool/main/n/nvidia-l4t-initrd/nvidia-l4t-initrd_36.5.0-20260115194252_arm64.deb",
+          "hash": "sha256-w5xvHQkBgfNmfUmLKMBtwVPEriFG/NNRO7Tn/A+vLng="
+        },
+        "nvidia-l4t-jetson-io": {
+          "name": "nvidia-l4t-jetson-io_36.5.0-20260115194252_arm64.deb",
+          "url": "https://repo.download.nvidia.com/jetson/t234/pool/main/n/nvidia-l4t-jetson-io/nvidia-l4t-jetson-io_36.5.0-20260115194252_arm64.deb",
+          "hash": "sha256-oXPqvJlWZiQyiOSpmPPc99HovYMze/2nsL73HmUA6LY="
+        },
+        "nvidia-l4t-jetson-orin-nano-qspi-updater": {
+          "name": "nvidia-l4t-jetson-orin-nano-qspi-updater_36.5.0-20260115194252_arm64.deb",
+          "url": "https://repo.download.nvidia.com/jetson/t234/pool/main/n/nvidia-l4t-jetson-orin-nano-qspi-updater/nvidia-l4t-jetson-orin-nano-qspi-updater_36.5.0-20260115194252_arm64.deb",
+          "hash": "sha256-FhJb7afhvfJVZPZ4ZP+wa8nb5AxC94Z+mqGj8jdb1m4="
+        },
+        "nvidia-l4t-jetsonpower-gui-tools": {
+          "name": "nvidia-l4t-jetsonpower-gui-tools_36.5.0-20260115194252_arm64.deb",
+          "url": "https://repo.download.nvidia.com/jetson/t234/pool/main/n/nvidia-l4t-jetsonpower-gui-tools/nvidia-l4t-jetsonpower-gui-tools_36.5.0-20260115194252_arm64.deb",
+          "hash": "sha256-zYURessmvSuHf2mLwROHLJVQCd3sZWKQ2amuYTMqKR0="
+        },
+        "nvidia-l4t-kernel-dtbs_5.15.185-tegra": {
+          "name": "nvidia-l4t-kernel-dtbs_5.15.185-tegra-36.5.0-20260115194252_arm64.deb",
+          "url": "https://repo.download.nvidia.com/jetson/t234/pool/main/n/nvidia-l4t-kernel-dtbs/nvidia-l4t-kernel-dtbs_5.15.185-tegra-36.5.0-20260115194252_arm64.deb",
+          "hash": "sha256-w1ryjEPdSb443OdFzyx6JM5j8YgSLGx3eBUKJF+PePA="
+        },
+        "nvidia-l4t-kernel-headers_5.15.185-tegra": {
+          "name": "nvidia-l4t-kernel-headers_5.15.185-tegra-36.5.0-20260115194252_arm64.deb",
+          "url": "https://repo.download.nvidia.com/jetson/t234/pool/main/n/nvidia-l4t-kernel-headers/nvidia-l4t-kernel-headers_5.15.185-tegra-36.5.0-20260115194252_arm64.deb",
+          "hash": "sha256-cisvZpxNm2FDD7YNfk3HCmG/+9+Me0qvABWHm/xbh8E="
+        },
+        "nvidia-l4t-kernel-oot-headers_5.15.185-tegra": {
+          "name": "nvidia-l4t-kernel-oot-headers_5.15.185-tegra-36.5.0-20260115194252_arm64.deb",
+          "url": "https://repo.download.nvidia.com/jetson/t234/pool/main/n/nvidia-l4t-kernel-oot-headers/nvidia-l4t-kernel-oot-headers_5.15.185-tegra-36.5.0-20260115194252_arm64.deb",
+          "hash": "sha256-hUDQ4nERjLLUxL1+d3vYW8LsBDI7K+o0GWZBMxAFLDU="
+        },
+        "nvidia-l4t-kernel-oot-modules_5.15.185-tegra": {
+          "name": "nvidia-l4t-kernel-oot-modules_5.15.185-tegra-36.5.0-20260115194252_arm64.deb",
+          "url": "https://repo.download.nvidia.com/jetson/t234/pool/main/n/nvidia-l4t-kernel-oot-modules/nvidia-l4t-kernel-oot-modules_5.15.185-tegra-36.5.0-20260115194252_arm64.deb",
+          "hash": "sha256-KZHPqQwwCsVZSGoBkMDH8NqzIR3kUibiucoX0jcw5I0="
+        },
+        "nvidia-l4t-kernel_5.15.185-tegra": {
+          "name": "nvidia-l4t-kernel_5.15.185-tegra-36.5.0-20260115194252_arm64.deb",
+          "url": "https://repo.download.nvidia.com/jetson/t234/pool/main/n/nvidia-l4t-kernel/nvidia-l4t-kernel_5.15.185-tegra-36.5.0-20260115194252_arm64.deb",
+          "hash": "sha256-WKVqA2n1PaPxOkCt9iC7zCv+szPd0ZzSxsBl7yUtVpI="
+        },
+        "nvidia-l4t-libwayland-client0": {
+          "name": "nvidia-l4t-libwayland-client0_36.5.0-20260115194252_arm64.deb",
+          "url": "https://repo.download.nvidia.com/jetson/t234/pool/main/n/nvidia-l4t-libwayland-client0/nvidia-l4t-libwayland-client0_36.5.0-20260115194252_arm64.deb",
+          "hash": "sha256-4IWdpZu1Haq8T0QW/r1OKNpsrhSOC4HmSLZYoBUEofo="
+        },
+        "nvidia-l4t-libwayland-cursor0": {
+          "name": "nvidia-l4t-libwayland-cursor0_36.5.0-20260115194252_arm64.deb",
+          "url": "https://repo.download.nvidia.com/jetson/t234/pool/main/n/nvidia-l4t-libwayland-cursor0/nvidia-l4t-libwayland-cursor0_36.5.0-20260115194252_arm64.deb",
+          "hash": "sha256-/rjGjiKYq883fsRYgTq2ZEPe/ugbJlzm7nkz6z16V1o="
+        },
+        "nvidia-l4t-libwayland-egl1": {
+          "name": "nvidia-l4t-libwayland-egl1_36.5.0-20260115194252_arm64.deb",
+          "url": "https://repo.download.nvidia.com/jetson/t234/pool/main/n/nvidia-l4t-libwayland-egl1/nvidia-l4t-libwayland-egl1_36.5.0-20260115194252_arm64.deb",
+          "hash": "sha256-LKd/K95EyiRh3WVnbMs6D8MDCCHvq/A0hxVaSQeLdY4="
+        },
+        "nvidia-l4t-libwayland-server0": {
+          "name": "nvidia-l4t-libwayland-server0_36.5.0-20260115194252_arm64.deb",
+          "url": "https://repo.download.nvidia.com/jetson/t234/pool/main/n/nvidia-l4t-libwayland-server0/nvidia-l4t-libwayland-server0_36.5.0-20260115194252_arm64.deb",
+          "hash": "sha256-xQ51icg+cfiTm4QaJ2Ro6S7hiVKIqBOrPFffp9xLm1k="
+        },
+        "nvidia-l4t-multimedia-utils": {
+          "name": "nvidia-l4t-multimedia-utils_36.5.0-20260115194252_arm64.deb",
+          "url": "https://repo.download.nvidia.com/jetson/t234/pool/main/n/nvidia-l4t-multimedia-utils/nvidia-l4t-multimedia-utils_36.5.0-20260115194252_arm64.deb",
+          "hash": "sha256-UDlRmUvoCapK+Yzvpx+tL4+HcvBbmIfAVRbfOjL7YT0="
+        },
+        "nvidia-l4t-multimedia": {
+          "name": "nvidia-l4t-multimedia_36.5.0-20260115194252_arm64.deb",
+          "url": "https://repo.download.nvidia.com/jetson/t234/pool/main/n/nvidia-l4t-multimedia/nvidia-l4t-multimedia_36.5.0-20260115194252_arm64.deb",
+          "hash": "sha256-AwaTWN3aNL5YhHQNScDdilFUVxoAhgdDdv4YCb5NnZE="
+        },
+        "nvidia-l4t-nvfancontrol": {
+          "name": "nvidia-l4t-nvfancontrol_36.5.0-20260115194252_arm64.deb",
+          "url": "https://repo.download.nvidia.com/jetson/t234/pool/main/n/nvidia-l4t-nvfancontrol/nvidia-l4t-nvfancontrol_36.5.0-20260115194252_arm64.deb",
+          "hash": "sha256-m1wZtuCQ0eoUfAT7Rmu7+020B7QhpthPPADC7DBEm4k="
+        },
+        "nvidia-l4t-nvml": {
+          "name": "nvidia-l4t-nvml_36.5.0-20260115194252_arm64.deb",
+          "url": "https://repo.download.nvidia.com/jetson/t234/pool/main/n/nvidia-l4t-nvml/nvidia-l4t-nvml_36.5.0-20260115194252_arm64.deb",
+          "hash": "sha256-yZJq77TM0qSx0VuxSlE1AvMLLbciSffLZG6QWUf98Ms="
+        },
+        "nvidia-l4t-nvpmodel-gui-tools": {
+          "name": "nvidia-l4t-nvpmodel-gui-tools_36.5.0-20260115194252_arm64.deb",
+          "url": "https://repo.download.nvidia.com/jetson/t234/pool/main/n/nvidia-l4t-nvpmodel-gui-tools/nvidia-l4t-nvpmodel-gui-tools_36.5.0-20260115194252_arm64.deb",
+          "hash": "sha256-yjWI6wbC6ItrQlt8gAszwcCRhXH2sjSV5U7OGbfh9ws="
+        },
+        "nvidia-l4t-nvpmodel": {
+          "name": "nvidia-l4t-nvpmodel_36.5.0-20260115194252_arm64.deb",
+          "url": "https://repo.download.nvidia.com/jetson/t234/pool/main/n/nvidia-l4t-nvpmodel/nvidia-l4t-nvpmodel_36.5.0-20260115194252_arm64.deb",
+          "hash": "sha256-vOJ+/7Rnybn1xZxnAMLxMeVWpwBGKBkEOCKbuZTXTrk="
+        },
+        "nvidia-l4t-nvsci": {
+          "name": "nvidia-l4t-nvsci_36.5.0-20260115194252_arm64.deb",
+          "url": "https://repo.download.nvidia.com/jetson/t234/pool/main/n/nvidia-l4t-nvsci/nvidia-l4t-nvsci_36.5.0-20260115194252_arm64.deb",
+          "hash": "sha256-gEBCIw0nSGlgoiXlJ7nYBeERcmlJoRYLwZEmxYCLN6k="
+        },
+        "nvidia-l4t-oem-config": {
+          "name": "nvidia-l4t-oem-config_36.5.0-20260115194252_arm64.deb",
+          "url": "https://repo.download.nvidia.com/jetson/t234/pool/main/n/nvidia-l4t-oem-config/nvidia-l4t-oem-config_36.5.0-20260115194252_arm64.deb",
+          "hash": "sha256-WL5c4JYxcy0F/TRDJpN0nmB0mTtetykoAyNwY0yyx70="
+        },
+        "nvidia-l4t-openwfd": {
+          "name": "nvidia-l4t-openwfd_36.5.0-20260115194252_arm64.deb",
+          "url": "https://repo.download.nvidia.com/jetson/t234/pool/main/n/nvidia-l4t-openwfd/nvidia-l4t-openwfd_36.5.0-20260115194252_arm64.deb",
+          "hash": "sha256-trpnMosrsD2dNG3Bi0047kEar8Hd0Q2CriBbYtl30Tk="
+        },
+        "nvidia-l4t-optee": {
+          "name": "nvidia-l4t-optee_36.5.0-20260115194252_arm64.deb",
+          "url": "https://repo.download.nvidia.com/jetson/t234/pool/main/n/nvidia-l4t-optee/nvidia-l4t-optee_36.5.0-20260115194252_arm64.deb",
+          "hash": "sha256-UwYPUq04/WRge1vIVsxgmfhOkiXsBfqEF3u0R7LmlfQ="
+        },
+        "nvidia-l4t-pva": {
+          "name": "nvidia-l4t-pva_36.5.0-20260115194252_arm64.deb",
+          "url": "https://repo.download.nvidia.com/jetson/t234/pool/main/n/nvidia-l4t-pva/nvidia-l4t-pva_36.5.0-20260115194252_arm64.deb",
+          "hash": "sha256-jwM3ioqqy3ZAD/Z8JGFEQDCs/8KDnscqVT4s31OdikQ="
+        },
+        "nvidia-l4t-tools": {
+          "name": "nvidia-l4t-tools_36.5.0-20260115194252_arm64.deb",
+          "url": "https://repo.download.nvidia.com/jetson/t234/pool/main/n/nvidia-l4t-tools/nvidia-l4t-tools_36.5.0-20260115194252_arm64.deb",
+          "hash": "sha256-NEHCXRexUT1oyyH6oloeQNxIEbWQw8gG5hp41tAp/+M="
+        },
+        "nvidia-l4t-vulkan-sc-dev": {
+          "name": "nvidia-l4t-vulkan-sc-dev_36.5.0-20260115194252_arm64.deb",
+          "url": "https://repo.download.nvidia.com/jetson/t234/pool/main/n/nvidia-l4t-vulkan-sc-dev/nvidia-l4t-vulkan-sc-dev_36.5.0-20260115194252_arm64.deb",
+          "hash": "sha256-JZKOROYXokKIHNb5TmLqH4uZ1O/0ZZm5GXFPsjqUNrQ="
+        },
+        "nvidia-l4t-vulkan-sc-samples": {
+          "name": "nvidia-l4t-vulkan-sc-samples_36.5.0-20260115194252_arm64.deb",
+          "url": "https://repo.download.nvidia.com/jetson/t234/pool/main/n/nvidia-l4t-vulkan-sc-samples/nvidia-l4t-vulkan-sc-samples_36.5.0-20260115194252_arm64.deb",
+          "hash": "sha256-NTxa0EWAmvkjAaklk7/d/AFtcAFv379sgJ/35ulOPFQ="
+        },
+        "nvidia-l4t-vulkan-sc-sdk": {
+          "name": "nvidia-l4t-vulkan-sc-sdk_36.5.0-20260115194252_arm64.deb",
+          "url": "https://repo.download.nvidia.com/jetson/t234/pool/main/n/nvidia-l4t-vulkan-sc-sdk/nvidia-l4t-vulkan-sc-sdk_36.5.0-20260115194252_arm64.deb",
+          "hash": "sha256-Ijr2q0fnRXo8a5dmp5os+uvJ6/NVjK67sY3fXSvORAg="
+        },
+        "nvidia-l4t-vulkan-sc": {
+          "name": "nvidia-l4t-vulkan-sc_36.5.0-20260115194252_arm64.deb",
+          "url": "https://repo.download.nvidia.com/jetson/t234/pool/main/n/nvidia-l4t-vulkan-sc/nvidia-l4t-vulkan-sc_36.5.0-20260115194252_arm64.deb",
+          "hash": "sha256-Z6NSRj2c668XB7SnEb6Dk6bgWyL03zopXEo2Ex5yNSA="
+        },
+        "nvidia-l4t-wayland": {
+          "name": "nvidia-l4t-wayland_36.5.0-20260115194252_arm64.deb",
+          "url": "https://repo.download.nvidia.com/jetson/t234/pool/main/n/nvidia-l4t-wayland/nvidia-l4t-wayland_36.5.0-20260115194252_arm64.deb",
+          "hash": "sha256-na9DvzvIS2anJToaNXhbjBSY1mutDd9pwLLYrD8sMkA="
+        },
+        "nvidia-l4t-weston": {
+          "name": "nvidia-l4t-weston_36.5.0-20260115194252_arm64.deb",
+          "url": "https://repo.download.nvidia.com/jetson/t234/pool/main/n/nvidia-l4t-weston/nvidia-l4t-weston_36.5.0-20260115194252_arm64.deb",
+          "hash": "sha256-w4ZZLcR9ezTBAXsqghAFTaJK188ZAhpj/CX1wTpiZ+s="
+        },
+        "nvidia-l4t-x11": {
+          "name": "nvidia-l4t-x11_36.5.0-20260115194252_arm64.deb",
+          "url": "https://repo.download.nvidia.com/jetson/t234/pool/main/n/nvidia-l4t-x11/nvidia-l4t-x11_36.5.0-20260115194252_arm64.deb",
+          "hash": "sha256-1eqDPTmysN0hRO8Y9RDDVgVd+0gxyvWhOaguItd6GJM="
+        },
+        "nvidia-l4t-xusb-firmware": {
+          "name": "nvidia-l4t-xusb-firmware_36.5.0-20260115194252_arm64.deb",
+          "url": "https://repo.download.nvidia.com/jetson/t234/pool/main/n/nvidia-l4t-xusb-firmware/nvidia-l4t-xusb-firmware_36.5.0-20260115194252_arm64.deb",
+          "hash": "sha256-AzILmkZ6RpapyNFCSywMcvVvB6i1OH0LPaw0Zwfi5yM="
+        }
+      }
+    }
+  }
+}
