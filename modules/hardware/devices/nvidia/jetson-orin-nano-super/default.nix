@@ -23,6 +23,14 @@ in
       # The module *must* fail with the unfree software error.
       # The user must make the informed decision about enabling unfree software.
       enableHardwareAcceleration = lib.mkEnableOption "the NVIDIA proprietary graphical and ML drivers";
+      quirks = {
+        # Enabled by default since it's cheap.
+        addDebugUserGroup =
+          lib.mkEnableOption "adding the `debug` user group, which is used in vendor udev configuration"
+          // {
+            default = true;
+          };
+      };
     };
   };
 
@@ -79,6 +87,14 @@ in
         boot.extraModulePackages = [
           config.boot.kernelPackages.nvidia-oot
         ];
+      })
+
+      (lib.mkIf cfg.quirks.addDebugUserGroup {
+        users.groups = {
+          # Works around these warnings in system logs:
+          #     /etc/udev/rules.d/99-tegra-devices.rules:00 Unknown group 'debug', ignoring.
+          debug = { };
+        };
       })
 
       (lib.mkIf cfg.enableHardwareAcceleration {
