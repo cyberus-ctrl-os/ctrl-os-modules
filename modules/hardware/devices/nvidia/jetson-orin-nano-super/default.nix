@@ -1,12 +1,15 @@
 {
   config,
   lib,
+  options,
   pkgs,
   ...
 }:
 
 let
   cfg = config.ctrl-os.hardware.devices.nvidia-jetson-orin-nano-super;
+  # This is used to refer to an option for pretty-printing its name.
+  opts = options.ctrl-os.hardware.devices.nvidia-jetson-orin-nano-super;
 in
 {
   options = {
@@ -29,6 +32,12 @@ in
           lib.mkEnableOption "adding the `debug` user group, which is used in vendor udev configuration"
           // {
             default = true;
+          };
+        unbindPlatformFramebuffer =
+          lib.mkEnableOption "unbinding the platform framebuffer during boot to enable use of the NVIDIA driver"
+          // {
+            default = cfg.enableHardwareAcceleration;
+            defaultText = "${options.enableHardwareAcceleration}";
           };
       };
     };
@@ -103,6 +112,22 @@ in
           #     /etc/udev/rules.d/99-tegra-devices.rules:00 Unknown group 'debug', ignoring.
           debug = { };
         };
+      })
+
+      (lib.mkIf (cfg.quirks.unbindPlatformFramebuffer) {
+        # This can just be enabled outright.
+        # This won't fail if the conditions are not met.
+        services.udev.packages = lib.singleton (
+          pkgs.writeTextFile rec {
+            name = "70-nvidia-unbind-simpledrm.rules";
+            destination = "/etc/udev/rules.d/${name}";
+            text = ''
+              # When udev is made aware (add|change) of the (platform) subsystem's framebuffer device (chosen:framebuffer),
+              # using (simple-framebuffer) as a driver, the driver is unbound, using the kernel name (effectively chosen:framebuffer).
+              ACTION=="add|change", SUBSYSTEM=="platform", KERNEL=="chosen:framebuffer", DRIVERS=="simple-framebuffer", ATTR{driver/unbind}="%k"
+            '';
+          }
+        );
       })
 
       (lib.mkIf cfg.enableHardwareAcceleration {
