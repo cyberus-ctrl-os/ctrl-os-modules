@@ -19,6 +19,7 @@
         "linux-hwpm" = "sha256-LrCtuQIbHxBibJaMnrNYEAegtezUDUPGiHJDW+0qHA8=";
         "linux-nvgpu" = "sha256-zvnTygjF8BUNxaqcU4Mt6kAwngFpArM5timpjw074uQ=";
         "linux-nv-oot" = "sha256-6sqz+yiG8VfJ5/QHn13a60TKqdwl1LuJfV3jCPoJxp4=";
+        "tegra/kernel-src/nv-kernel-display-driver" = "sha256-MjiircE+B8r15QAEt/ZZiWPV7yZd6/2CuJnbc6Z2YiU=";
       };
     in
     builtins.mapAttrs (
@@ -43,12 +44,20 @@ kernel.stdenv.mkDerivation (finalAttrs: {
     runHook preUnpack
 
     ${lib.concatStringsSep "\n" (
-      lib.mapAttrsToList (name: src: ''
-        printf '\n:: Copying %q to workspace\n' "${name}"
-        mkdir -p ./${name}
-        cp -rt ./${name} ${src}/*
-        chmod -R +w ./${name}
-      '') srcs
+      lib.mapAttrsToList (
+        repo: src:
+        let
+          # The repos are keyed by GitLab project structure.
+          # We're flattening it to the basename of the repos.
+          name = builtins.baseNameOf repo;
+        in
+        ''
+          printf '\n :: Copying %q to workspace\n' "${name}"
+          mkdir -p ./${name}
+          cp -rt ./${name} ${src}/*
+          chmod -R +w ./${name}
+        ''
+      ) srcs
     )}
     export workspace="$PWD"
 
@@ -61,6 +70,25 @@ kernel.stdenv.mkDerivation (finalAttrs: {
     printf '\n :: Disabling nvethernet driver...\n'
     # Not needed on supported hardware, requires additional repository setup.
     echo "# disabled" > "$workspace/linux-nv-oot/drivers/net/ethernet/nvidia/nvethernet/Makefile"
+
+    printf '\n :: Ensuring open kernel modules build succeeds\n'
+    # The open display drivers build is kinda broken, and needs to happen in two stages
+    #   1. build the "OS agnostic portions"
+    #   2. build the Linux kernel modules
+    # The handling for stage 2 loses all the makeFlags.
+    # So instead we'll just run the command ourselves...
+    substituteInPlace nv-kernel-display-driver/Makefile \
+      --replace-fail '$(MAKE) -C kernel-open modules' '# (make modules handled externally)'
+
+    # Add the OOT symbols for feature detection.
+    # Vendor merges the kernel symvers with oot symvers.
+    substituteInPlace nv-kernel-display-driver/kernel-open/conftest.sh \
+      --replace-fail '"$OUTPUT/Module.symvers" >/dev/null' '"$OUTPUT/Module.symvers" "$workspace/linux-nv-oot/Module.symvers" >/dev/null'
+
+    # Patch in our added CFLAGS into the display driver conftest.
+    # This differs from the nv-oot conftest.
+    substituteInPlace nv-kernel-display-driver/kernel-open/Kbuild \
+      --replace-fail 'NV_CONFTEST_CFLAGS =' 'NV_CONFTEST_CFLAGS = $(KCFLAGS)'
   '';
 
   configurePhase = ''
@@ -136,6 +164,16 @@ kernel.stdenv.mkDerivation (finalAttrs: {
     "NV_OOT_BLOCK_TEGRA_VIRT_STORAGE_SKIP_BUILD=y"
   ];
 
+  # These CFGLAGS are for the nv-kernel-display-driver build.
+  # No other mechanism allowed getting through to it.
+  KCFLAGS = lib.concatStringsSep " " [
+    "-I$(srctree.nvidia-oot)/include"
+    # The following three flags are used to make conftest work.
+    "-std=gnu11"
+    "-fshort-wchar"
+    "-Wno-incompatible-pointer-types"
+  ];
+
   buildFlags = [
     "modules"
   ];
@@ -171,6 +209,33 @@ kernel.stdenv.mkDerivation (finalAttrs: {
 
     printf '\n :: Building nvgpu\n'
     _make "M=$workspace/linux-nvgpu/drivers/gpu/nvgpu"
+
+    # This build step differs from the three previous ones, just as it does in the downstream oot Makefile.
+    if [[ "$curPhase" == "buildPhase" ]]; then
+      printf '\n :: Building nv-kernel-display-driver OS-agnostic portions\n'
+
+      # `NV_BUILD_HOSTNAME` is used in newer releases, `HOSTNAME` was previously used.
+      _make -C "$workspace/nv-kernel-display-driver" \
+        HOSTNAME="nixos" \
+        NV_BUILD_HOST="nixos" \
+        NV_BUILD_USER="nixos" \
+        TARGET_OS=Linux \
+        TARGET_ARCH=${kernel.stdenv.hostPlatform.uname.processor} \
+        "SYSSRC=${kernel.dev}/lib/modules/${kernel.modDirVersion}/source" \
+        "SYSOUT=${kernel.dev}/lib/modules/${kernel.modDirVersion}/build" \
+        'MODLIB=$(out)/lib/modules/${kernel.modDirVersion}' \
+        "DATE=" \
+        KERNELRELEASE=""
+        LOCALVERSION='$(version)'
+    fi
+
+    # NOTE: The open driver's own conftest.sh is being ran in this command.
+    printf '\n :: Building nv-kernel-display-driver module\n'
+    _make \
+      -C "$workspace/nv-kernel-display-driver/kernel-open" \
+      SYSSRC="${kernel.dev}/lib/modules/${kernel.modDirVersion}/source" \
+      SYSOUT="${kernel.dev}/lib/modules/${kernel.modDirVersion}/build" \
+      SYSSRCHOST1X="$workspace/linux-nv-oot/drivers/gpu/host1x/include"
 
     runHook postBuild
   '';
@@ -232,6 +297,11 @@ kernel.stdenv.mkDerivation (finalAttrs: {
       # linux-nv-oot
       # SPDX-License-Identifier: BSD-3-Clause
       lib.licenses.bsd3
+
+      # nv-kernel-display-driver
+      # SPDX-License-Identifier: MIT
+      # However, when linked together to form a Linux kernel module, the resulting Linux
+      # kernel module is dual licensed as MIT/GPLv2.
     ];
 
     # Vendor supports up to 6.15 as of 2026-01-04.
