@@ -71,6 +71,10 @@ in
         ];
       })
 
+      {
+        boot.kernelPackages = lib.mkDefault pkgs.linuxPackages_6_12;
+      }
+
       (lib.mkIf cfg.enableOotModules {
         boot.extraModulePackages = [
           config.boot.kernelPackages.nvidia-oot
