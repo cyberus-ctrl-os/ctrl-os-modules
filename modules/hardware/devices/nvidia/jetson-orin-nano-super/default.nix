@@ -1,4 +1,9 @@
-{ config, lib, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   cfg = config.ctrl-os.hardware.devices.nvidia-jetson-orin-nano-super;
@@ -14,6 +19,10 @@ in
         // {
           default = true;
         };
+      # Reminder device enablement modules should not set the unfree software option.
+      # The module *must* fail with the unfree software error.
+      # The user must make the informed decision about enabling unfree software.
+      enableHardwareAcceleration = lib.mkEnableOption "the NVIDIA proprietary graphical and ML drivers";
     };
   };
 
@@ -66,6 +75,41 @@ in
         boot.extraModulePackages = [
           config.boot.kernelPackages.nvidia-oot
         ];
+      })
+
+      (lib.mkIf cfg.enableHardwareAcceleration {
+        services.udev.packages = [
+          pkgs.nvidia-jetson-orin-nano-super.nvidia-l4t
+        ];
+        hardware.firmware = lib.mkAfter [
+          pkgs.nvidia-jetson-orin-nano-super.nvidia-l4t-firmware
+        ];
+        hardware.graphics.extraPackages = [
+          pkgs.nvidia-jetson-orin-nano-super.nvidia-l4t
+        ];
+        services.xserver = {
+          # Use the `nvidia` driver for `tegra` kernel driver matches.
+          config = ''
+            Section "OutputClass"
+              Identifier "nvidia"
+              MatchDriver "tegra"
+              Driver "nvidia"
+            EndSection
+          '';
+          # NOTE: videoDrivers cannot be used.
+          # Enabling `"nvidia"` within it uses the non-l4t NVIDIA driver.
+          # Instead we force the driver list to ensure only this one is used.
+          drivers = lib.mkForce (
+            lib.singleton {
+              name = "nvidia";
+              modules = [ pkgs.nvidia-jetson-orin-nano-super.nvidia-l4t ];
+              display = true;
+              deviceSection = ''
+                Option "AllowEmptyInitialConfiguration" "true"
+              '';
+            }
+          );
+        };
       })
     ]
   );
