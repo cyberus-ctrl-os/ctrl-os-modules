@@ -135,6 +135,19 @@ in
         );
       })
 
+      (lib.mkIf (cfg.quirks.unbindPlatformFramebuffer && cfg.enableHardwareAcceleration) {
+        services.udev.packages = lib.singleton (
+          pkgs.writeTextFile rec {
+            name = "70-nvidia-load-nvidia-drm.rules";
+            destination = "/etc/udev/rules.d/${name}";
+            text = ''
+              # Ensure that, once the simpledrm hold is over, the `nvidia-drm` driver is loaded.
+              ACTION=="unbind|remove", SUBSYSTEM=="platform", KERNEL=="chosen:framebuffer", RUN{builtin}+="kmod load nvidia-drm"
+            '';
+          }
+        );
+      })
+
       (lib.mkIf cfg.enableHardwareAcceleration {
         services.udev.packages = [
           pkgs.nvidia-jetson-orin-nano-super.nvidia-l4t
