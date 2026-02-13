@@ -66,6 +66,10 @@ kernel.stdenv.mkDerivation (finalAttrs: {
 
   nativeBuildInputs = kernel.moduleBuildDependencies;
 
+  patches = [
+    ./0001-BACKPORT-Backport-fbdev_ttm-support-from-565.57.01.patch
+  ];
+
   postPatch = ''
     printf '\n :: Disabling nvethernet driver...\n'
     # Not needed on supported hardware, requires additional repository setup.
