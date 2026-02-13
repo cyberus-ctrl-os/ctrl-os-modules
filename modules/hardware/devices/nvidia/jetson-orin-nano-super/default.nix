@@ -91,6 +91,17 @@ in
         hardware.graphics.extraPackages = [
           pkgs.nvidia-jetson-orin-nano-super.nvidia-l4t
         ];
+        boot.kernelModules = [
+          "tegra_drm"
+          # This *cannot* be loaded with `tegra_drm` or else it breaks.
+          # It will be loaded as needed.
+          # "nvidia_drm"
+        ];
+        boot.extraModprobeConfig = lib.mkMerge [
+          # Without `modeset`, the X11 driver will fail to work.
+          # This is the vendor-suggested configuration.
+          "options nvidia_drm modeset=1 fbdev=1"
+        ];
         services.xserver = {
           # Use the `nvidia` driver for `tegra` kernel driver matches.
           config = ''
