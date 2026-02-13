@@ -107,6 +107,10 @@ in
         hardware.graphics.extraPackages = [
           pkgs.nvidia-jetson-orin-nano-super.nvidia-l4t
         ];
+        environment.etc = {
+          "egl/egl_external_platform.d".source = "/run/opengl-driver/share/egl/egl_external_platform.d/";
+          "glvnd/egl_vendor.d".source = "/run/opengl-driver/share/glvnd/egl_vendor.d";
+        };
         boot.kernelModules = [
           "tegra_drm"
           # This *cannot* be loaded with `tegra_drm` or else it breaks.
