@@ -37,6 +37,14 @@ in
   config = lib.mkIf cfg.enable (
     lib.mkMerge [
       {
+        assertions = [
+          {
+            assertion = pkgs.linuxKernel.override.__functionArgs ? kernelPackagesExtensions;
+            message = "The `kernelPackagesExtensions` feature was not detected on the `linuxKernel` attribute. Your Nixpkgs version may be too old.";
+          }
+        ];
+      }
+      {
         nixpkgs.hostPlatform = "aarch64-linux";
 
         # We can add the proprietary packages to the overlay even without enabling the
