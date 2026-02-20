@@ -169,13 +169,18 @@ in
         services.udev.packages = [
           pkgs.nvidia-jetson-orin-nano-super.nvidia-l4t
         ];
-        hardware.firmware = lib.mkAfter [
-          pkgs.nvidia-jetson-orin-nano-super.nvidia-l4t-firmware
-        ];
-        hardware.graphics.enable = true;
-        hardware.graphics.extraPackages = [
-          pkgs.nvidia-jetson-orin-nano-super.nvidia-l4t
-        ];
+        hardware = {
+          firmware = lib.mkAfter [
+            pkgs.nvidia-jetson-orin-nano-super.nvidia-l4t-firmware
+          ];
+          # Backward compatibility to evaluate against 24.05
+          "${if options.hardware ? graphics then "graphics" else "opengl"}" = {
+            enable = true;
+            extraPackages = [
+              pkgs.nvidia-jetson-orin-nano-super.nvidia-l4t
+            ];
+          };
+        };
         environment.etc = {
           "egl/egl_external_platform.d".source = "/run/opengl-driver/share/egl/egl_external_platform.d/";
           "glvnd/egl_vendor.d".source = "/run/opengl-driver/share/glvnd/egl_vendor.d";
