@@ -3,6 +3,7 @@
   buildLinux,
   fetchFromGitLab,
   kernelPatches,
+  withSimpledrm ? true,
   ...
 # This needs to forward additional `.override` args to `buildLinux`.
 # See `nixos/modules/system/boot/kernel.nix`.
@@ -29,13 +30,17 @@ buildLinux (
       # ../drivers/media/pci/intel/ipu6/../ipu-dma.c:53:17: error: implicit declaration of function 'clflush_cache_range'; did you mean 'flush_cache_range'? [-Werror=implicit-function-declaration]
       VIDEO_INTEL_IPU6 = lib.kernel.no;
 
-      FB_SIMPLE = lib.kernel.yes;
-      # SIMPLEDRM **must** be disabled for the X11 driver.
-      DRM_SIMPLEDRM = lib.mkForce lib.kernel.no;
-
       # XZ compressed firmware load is not enabled if not specified.
       FW_LOADER_COMPRESS = lib.kernel.yes;
       FW_LOADER_COMPRESS_XZ = lib.kernel.yes;
-    };
+    }
+    // (lib.optionalAttrs (!withSimpledrm) {
+      # The vendor-provided drivers are made under the assumption that fbdev is
+      # enabled, and simpledrm is disabled.
+      # This snippet is made available to make it easier for end-users to test
+      # their systems with the expected configuration from the vendor.
+      DRM_SIMPLEDRM = lib.mkForce lib.kernel.no;
+      FB_SIMPLE = lib.kernel.yes;
+    });
   }
 )
