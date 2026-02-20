@@ -104,6 +104,7 @@ in
         hardware.firmware = lib.mkAfter [
           pkgs.nvidia-jetson-orin-nano-super.nvidia-l4t-firmware
         ];
+        hardware.graphics.enable = true;
         hardware.graphics.extraPackages = [
           pkgs.nvidia-jetson-orin-nano-super.nvidia-l4t
         ];
