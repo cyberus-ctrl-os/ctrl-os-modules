@@ -163,11 +163,12 @@ in
           "egl/egl_external_platform.d".source = "/run/opengl-driver/share/egl/egl_external_platform.d/";
           "glvnd/egl_vendor.d".source = "/run/opengl-driver/share/glvnd/egl_vendor.d";
         };
-        boot.kernelModules = [
+        boot.blacklistedKernelModules = [
+          # The tegra_drm and nvidia_drm modules need to be loaded in order.
+          # Prevent the usual modules loading mechanisms from trying and failing.
+          # See 70-nvidia-unbind-simpledrm.rules for how this gets loaded.
           "tegra_drm"
-          # This *cannot* be loaded with `tegra_drm` or else it breaks.
-          # It will be loaded as needed.
-          # "nvidia_drm"
+          "nvidia_drm"
         ];
         boot.extraModprobeConfig = lib.mkMerge [
           # Without `modeset`, the X11 driver will fail to work.
