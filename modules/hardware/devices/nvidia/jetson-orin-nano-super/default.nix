@@ -129,20 +129,37 @@ in
             text = ''
               # When udev is made aware (add|change) of the (platform) subsystem's framebuffer device (chosen:framebuffer),
               # using (simple-framebuffer) as a driver, the driver is unbound, using the kernel name (effectively chosen:framebuffer).
-              ACTION=="add|change", SUBSYSTEM=="platform", KERNEL=="chosen:framebuffer", DRIVERS=="simple-framebuffer", ATTR{driver/unbind}="%k"
-            '';
-          }
-        );
-      })
-
-      (lib.mkIf (cfg.quirks.unbindPlatformFramebuffer && cfg.enableHardwareAcceleration) {
-        services.udev.packages = lib.singleton (
-          pkgs.writeTextFile rec {
-            name = "70-nvidia-load-nvidia-drm.rules";
-            destination = "/etc/udev/rules.d/${name}";
-            text = ''
-              # Ensure that, once the simpledrm hold is over, the `nvidia-drm` driver is loaded.
-              ACTION=="unbind|remove", SUBSYSTEM=="platform", KERNEL=="chosen:framebuffer", RUN{builtin}+="kmod load nvidia-drm"
+              ACTION=="add|change", SUBSYSTEM=="platform", KERNEL=="chosen:framebuffer", DRIVERS=="simple-framebuffer", ${
+                if cfg.enableHardwareAcceleration then
+                  # NOTE: This is *by design* running the unbind *after* `tegra-drm` is loaded.
+                  # This makes:
+                  #   - `tegra-drm` take `card1`
+                  #   - `simpledrm` drop `card0`
+                  #   - `nvidia-drm` take `card0`
+                  ''RUN+="${pkgs.writeShellScript "nvidia-simpledrm-unbind" ''
+                    set -eux -o pipefail
+                    unbind_path='/sys/bus/platform/devices/chosen:framebuffer/driver/unbind'
+                    ${pkgs.kmod}/bin/modprobe tegra-drm
+                    i=30
+                    # Wait until `card1` has been taken.
+                    until test -e /dev/dri/card1; do
+                      ${pkgs.coreutils}/bin/sleep 0.1
+                      ((i--)) || break
+                    done
+                    echo "chosen:framebuffer" > "$unbind_path"
+                    i=30
+                    # Wait until `card0` is gone.
+                    while test -e /dev/dri/card0; do
+                      ${pkgs.coreutils}/bin/sleep 0.1
+                      ((i--)) || break
+                    done
+                    # No need to wait here.
+                    ${pkgs.kmod}/bin/modprobe nvidia-drm
+                  ''}"''
+                else
+                  # Just unbind if we've not enabled hardware acceleration but this quirk is on.
+                  ''ATTR{driver/unbind}="%k"''
+              }
             '';
           }
         );
