@@ -52,6 +52,11 @@ in
             message = "The `kernelPackagesExtensions` feature was not detected on the `linuxKernel` attribute. Your Nixpkgs version may be too old.";
           }
         ];
+        warnings =
+          [ ]
+          ++ (lib.optional (!cfg.quirks.unbindPlatformFramebuffer && cfg.enableHardwareAcceleration)
+            "The kernel modules for hardware acceleration will not be loaded when disabling the `${opts.quirks.unbindPlatformFramebuffer}` quirk."
+          );
       }
       {
         nixpkgs.hostPlatform = "aarch64-linux";
