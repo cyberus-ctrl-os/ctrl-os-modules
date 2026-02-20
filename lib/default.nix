@@ -42,6 +42,17 @@ let
           ) dir
         )
       );
+
+    /**
+      Returns the Flake lock information for the given input name on this Flake.
+    */
+    getFlakeInput =
+      name:
+      let
+        data = builtins.fromJSON (builtins.readFile ../flake.lock);
+        nodeName = data.nodes.root.inputs.${name};
+      in
+      data.nodes.${nodeName};
   };
 in
 self
