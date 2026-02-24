@@ -202,6 +202,9 @@ in
           # See 70-nvidia-unbind-simpledrm.rules for how this gets loaded.
           "tegra_drm"
           "nvidia_drm"
+          # Vendor prevents this module from being loaded by default.
+          # The reason why is not explained.
+          "snd_soc_tegra_audio_graph_card"
         ];
         boot.extraModprobeConfig = lib.mkMerge [
           # Without `modeset`, the X11 driver will fail to work.
