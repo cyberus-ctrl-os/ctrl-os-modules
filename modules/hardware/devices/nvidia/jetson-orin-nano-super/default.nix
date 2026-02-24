@@ -39,6 +39,11 @@ in
             default = cfg.enableHardwareAcceleration;
             defaultText = "${options.enableHardwareAcceleration}";
           };
+        debugModuleLoading =
+          lib.mkEnableOption "send debug information to the kernel log when loading the kernel module."
+          // {
+            internal = true;
+          };
       };
     };
   };
@@ -137,7 +142,10 @@ in
                   #   - `simpledrm` drop `card0`
                   #   - `nvidia-drm` take `card0`
                   ''RUN+="${pkgs.writeShellScript "nvidia-simpledrm-unbind" ''
-                    set -eux -o pipefail
+                    (
+                    set -eu -o pipefail
+                    printf 'Loading nvidia-drm kernel module...\n\n'
+                    set -x
                     unbind_path='/sys/bus/platform/devices/chosen:framebuffer/driver/unbind'
                     ${pkgs.kmod}/bin/modprobe tegra-drm
                     i=30
@@ -155,6 +163,9 @@ in
                     done
                     # No need to wait here.
                     ${pkgs.kmod}/bin/modprobe nvidia-drm
+                    set +x
+                    printf '... done!\n\n'
+                    ) ${lib.optionalString cfg.quirks.debugModuleLoading ">/dev/kmsg 2>&1"}
                   ''}"''
                 else
                   # Just unbind if we've not enabled hardware acceleration but this quirk is on.
