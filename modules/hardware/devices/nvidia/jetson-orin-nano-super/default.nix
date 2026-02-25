@@ -8,8 +8,6 @@
 
 let
   cfg = config.ctrl-os.hardware.devices.nvidia-jetson-orin-nano-super;
-  # This is used to refer to an option for pretty-printing its name.
-  opts = options.ctrl-os.hardware.devices.nvidia-jetson-orin-nano-super;
 in
 {
   options = {
@@ -33,12 +31,6 @@ in
           // {
             default = true;
           };
-        unbindPlatformFramebuffer =
-          lib.mkEnableOption "unbinding the platform framebuffer during boot to enable use of the NVIDIA driver"
-          // {
-            default = cfg.enableHardwareAcceleration;
-            defaultText = "${options.enableHardwareAcceleration}";
-          };
         debugModuleLoading =
           lib.mkEnableOption "send debug information to the kernel log when loading the kernel module."
           // {
@@ -57,11 +49,6 @@ in
             message = "The `kernelPackagesExtensions` feature was not detected on the `linuxKernel` attribute. Your Nixpkgs version may be too old.";
           }
         ];
-        warnings =
-          [ ]
-          ++ (lib.optional (!cfg.quirks.unbindPlatformFramebuffer && cfg.enableHardwareAcceleration)
-            "The kernel modules for hardware acceleration will not be loaded when disabling the `${opts.quirks.unbindPlatformFramebuffer}` quirk."
-          );
       }
       {
         nixpkgs.hostPlatform = "aarch64-linux";
@@ -124,59 +111,105 @@ in
         };
       })
 
-      (lib.mkIf (cfg.quirks.unbindPlatformFramebuffer) {
-        # This can just be enabled outright.
-        # This won't fail if the conditions are not met.
-        services.udev.packages = lib.singleton (
-          pkgs.writeTextFile rec {
-            name = "70-nvidia-unbind-simpledrm.rules";
-            destination = "/etc/udev/rules.d/${name}";
-            text = ''
-              # When udev is made aware (add|change) of the (platform) subsystem's framebuffer device (chosen:framebuffer),
-              # using (simple-framebuffer) as a driver, the driver is unbound, using the kernel name (effectively chosen:framebuffer).
-              ACTION=="add|change", SUBSYSTEM=="platform", KERNEL=="chosen:framebuffer", DRIVERS=="simple-framebuffer", ${
-                if cfg.enableHardwareAcceleration then
-                  # NOTE: This is *by design* running the unbind *after* `tegra-drm` is loaded.
-                  # This makes:
-                  #   - `tegra-drm` take `card1`
-                  #   - `simpledrm` drop `card0`
-                  #   - `nvidia-drm` take `card0`
-                  ''RUN+="${pkgs.writeShellScript "nvidia-simpledrm-unbind" ''
-                    (
-                    set -eu -o pipefail
-                    printf 'Loading nvidia-drm kernel module...\n\n'
-                    set -x
-                    unbind_path='/sys/bus/platform/devices/chosen:framebuffer/driver/unbind'
-                    ${pkgs.kmod}/bin/modprobe tegra-drm
-                    i=30
-                    # Wait until `card1` has been taken.
-                    until test -e /dev/dri/card1; do
-                      ${pkgs.coreutils}/bin/sleep 0.1
-                      ((i--)) || break
-                    done
-                    echo "chosen:framebuffer" > "$unbind_path"
-                    i=30
-                    # Wait until `card0` is gone.
-                    while test -e /dev/dri/card0; do
-                      ${pkgs.coreutils}/bin/sleep 0.1
-                      ((i--)) || break
-                    done
-                    # No need to wait here.
-                    ${pkgs.kmod}/bin/modprobe nvidia-drm
-                    set +x
-                    printf '... done!\n\n'
-                    ) ${lib.optionalString cfg.quirks.debugModuleLoading ">/dev/kmsg 2>&1"}
-                  ''}"''
-                else
-                  # Just unbind if we've not enabled hardware acceleration but this quirk is on.
-                  ''ATTR{driver/unbind}="%k"''
-              }
-            '';
-          }
-        );
-      })
+      (lib.mkIf (cfg.enableHardwareAcceleration) {
+        # This service handles the weakly defined dependencies for the NVIDIA
+        # driver stack.
+        #  - simpledrm must not hold the device
+        #  - tegra-drm must be loaded before nvidia-drm
+        #  - nvidia-drm is loaded last
+        # For better support of wayland compositors, this uses a trick to
+        # force the nvidia-drm driver to pick the `card0` name (from the
+        # assigned minor device number).
+        # This workaround will not work when “SOC Display Hand-Off” is
+        # disabled, or if running on a kernel with simpledrm disabled.
+        systemd.services.nvidia-load-modules = {
+          wantedBy = [ "graphical.target" ];
+          before = [
+            "graphical.target"
+            "display-manager.service"
+          ];
+          after = [
+            "multi-user.target"
+            "systemd-modules-load.service"
+          ];
+          path = with pkgs; [
+            kmod
+            coreutils
+          ];
+          script = ''
+            (
+            set -eu -o pipefail
+            printf 'Loading nvidia-drm kernel module...\n\n'
+            (
+            # This path allows manually unbinding the simpledrm driver from the framebuffer.
+            # The vendor driver does not know how to do that.
+            unbind_path='/sys/bus/platform/devices/chosen:framebuffer/driver/unbind'
 
-      (lib.mkIf cfg.enableHardwareAcceleration {
+            simpledrm_card="/dev/dri/by-path/platform-chosen:framebuffer-card"
+            tegra_card="dev/dri/by-path/platform-13e00000.host1x-card"
+            nvidia_card="dev/dri/by-path/platform-13800000.display-card"
+
+            printf "Checking nvidia-drm can take card0...\n"
+            if ! test -e "$unbind_path"; then
+              printf "WARNING: The nvidia-drm driver will be on '/dev/dri/card1'.\n"
+              printf "This may break some wayland compositors or other DRM software.\n"
+            fi
+
+            printf "Checking if the module can be loaded...\n"
+            if ! modprobe --first-time --dry-run nvidia-drm; then
+              printf "Skipping loading nvidia-drm kernel module.\n" >&2
+              # This is not a failure for this unit.
+              # The module might be loaded.
+              exit 0
+            fi
+
+            ${lib.optionalString cfg.quirks.debugModuleLoading "set -x"}
+
+            # Load the tegra-drm driver.
+            # If simpledrm is loaded, this will effectively use /dev/dri/card1.
+            modprobe tegra-drm
+
+            i=30
+            # Wait a bit until the card shows up.
+            until test -e "$tegra_card"; do
+              sleep 0.1
+              ((i--)) || break
+            done
+
+            # The vendor driver stack is fussy, wait a bit more.
+            sleep 1
+
+            # Make the simpledrm driver drop the card0 identifier, if relevant.
+            if test -e "$unbind_path"; then
+              printf 'chosen:framebuffer' > "$unbind_path"
+              i=30
+              # Wait until (effectively) card0 is free.
+              while test -e ; do
+                sleep 0.1
+                ((i--)) || break
+              done
+            fi
+
+            # The vendor driver stack is fussy, wait just a bit more again.
+            sleep 1
+
+            # Then load the driver actual driver.
+            modprobe nvidia-drm
+            )
+
+            printf '... done loading nvidia-drm kernel module.\n'
+            ) ${lib.optionalString cfg.quirks.debugModuleLoading ">/dev/kmsg 2>&1"}
+          '';
+          serviceConfig = {
+            # > systemd will consider [oneshot units] to be in the state "starting"
+            # > until the program has terminated, so ordered dependencies will
+            # > wait for the program to finish before starting themselves
+            Type = "oneshot";
+            # Never restart this unit.
+            Restart = "no";
+          };
+        };
+
         services.udev.packages = [
           pkgs.nvidia-jetson-orin-nano-super.nvidia-l4t
         ];
