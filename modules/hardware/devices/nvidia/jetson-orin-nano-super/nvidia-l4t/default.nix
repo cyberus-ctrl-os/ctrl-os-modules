@@ -12,6 +12,7 @@ in
   fetchurl,
   autoPatchelfHook,
   dpkg,
+  systemd, # for udevadm
 
   coreutils,
   expat,
@@ -106,7 +107,31 @@ stdenv.mkDerivation (finalAttrs: {
   nativeBuildInputs = [
     autoPatchelfHook
     dpkg
+    systemd
   ];
+
+  buildPhase = ''
+    args=(
+      # Fix style issues with the rules.
+      # This is used to ensure further patches are "proper".
+      --replace-fail '" GOTO=' '", GOTO='
+      --replace-fail '" OWNER=' '", OWNER='
+      --replace-fail '" GROUP=' '", GROUP='
+      --replace-fail '" MODE=' '", MODE='
+      --replace-fail '" KERNEL==' '", KERNEL=='
+
+      # Patch uaccess on `video` group device nodes.
+      --replace-fail 'GROUP="video"' 'GROUP="video", TAG+="uaccess"'
+
+      # replace hardcoded utils
+      --replace-fail "/bin/mknod" "${lib.getExe' coreutils "mknod"}"
+    )
+    substituteInPlace etc/udev/rules.d/99-tegra-devices.rules "''${args[@]}"
+
+    # Check this is valid, and also for style.
+    udevadm verify --resolve-names=late \
+      etc/udev/rules.d/99-tegra-devices.rules
+  '';
 
   installPhase = ''
     runHook preInstall
@@ -127,9 +152,8 @@ stdenv.mkDerivation (finalAttrs: {
     mv -t $out/share/egl/egl_external_platform.d/ usr/share/egl/egl_external_platform.d/nvidia_gbm.json
 
     mkdir -vp "$out/lib/udev/rules.d"
-    mv -t $out/lib/udev/rules.d etc/udev/rules.d/99-tegra-devices.rules
-    substituteInPlace $out/lib/udev/rules.d/99-tegra-devices.rules \
-      --replace-fail "/bin/mknod" "${lib.getExe' coreutils "mknod"}"
+    # NOTE: uaccess tags require filenames to lexicographically sort before `73-seat-late.rules`.
+    mv -v etc/udev/rules.d/99-tegra-devices.rules $out/lib/udev/rules.d/70-tegra-devices.rules
 
     (
       set -x
