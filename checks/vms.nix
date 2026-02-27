@@ -10,10 +10,11 @@
   testers,
 }:
 let
-  # The image must be a raw image
+  # The image must be a raw image.
   image = fetchurl {
-    url = "https://cloud-images.ubuntu.com/noble/20251113/noble-server-cloudimg-amd64.img";
-    sha256 = "sha256-kOf6/3319QlDCJ31d4LA0diJOPhr2JUghnxZVf4mvIE=";
+    # TODO Find a permanently available image. Ubuntu removes these after a while.
+    url = "https://cloud-images.ubuntu.com/noble/20260225/noble-server-cloudimg-amd64.img";
+    sha256 = "sha256-eqbZ9eijpVx0RbE40xpz0Rh4cSEbK32p2i4abL8WmyE=";
   };
   imageRaw = runCommand "convert-RAW" { } ''
     ${lib.getExe' qemu-utils "qemu-img"} convert -O raw ${image} $out
