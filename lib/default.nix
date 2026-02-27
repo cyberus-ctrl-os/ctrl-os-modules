@@ -42,6 +42,25 @@ let
           ) dir
         )
       );
+
+    /**
+      Returns the Flake lock information for the given input name on this Flake.
+    */
+    getFlakeInput =
+      name:
+      let
+        data = builtins.fromJSON (builtins.readFile ../flake.lock);
+        nodeName = data.nodes.root.inputs.${name};
+      in
+      data.nodes.${nodeName};
+
+    /**
+      The default locked Nixpkgs version number. For example, 26.05.
+      This can be used to check for overridden inputs.
+    */
+    lockedNixpkgsVersion = builtins.head (
+      builtins.match ".*/nixos-([0-9]+\\.[0-9]+).*" (self.getFlakeInput "nixpkgs").locked.url
+    );
   };
 in
 self

@@ -26,7 +26,12 @@
         ./packages/flakeModule.nix
       ]
       ++
-        inputs.nixpkgs.lib.optionals (inputs.nixpkgs.lib.versionAtLeast inputs.nixpkgs.lib.version "25.11")
+        # Only run the `pre-commit` checks when ran using the locked Nixpkgs.
+        # This ensures our CI isn't running those checks when we override the Nixpkgs input.
+        inputs.nixpkgs.lib.optionals
+          (inputs.nixpkgs.lib.versionAtLeast inputs.nixpkgs.lib.version
+            (import ./lib { lib = { }; }).lockedNixpkgsVersion
+          )
           [
             inputs.preCommitHooksNix.flakeModule
             ./checks/pre-commit.nix
