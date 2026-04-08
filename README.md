@@ -33,10 +33,10 @@ status symbols:
 - 🚧 - Planned/WIP
 - ❌ - Not Planned
 
-| Module                                                             | Status   | Unstable | 26.05 | 24.05 | Description                                  |
-|--------------------------------------------------------------------|----------|----------|-------|-------|----------------------------------------------|
-| [`profiles`](https://docs.ctrl-os.com/modules/ctrl-os-profiles/)   | **Beta** | ✅       | 🚧    | ✅    | Different opinionated settings for CTRL-OS   |
-| [`vms`](https://docs.ctrl-os.com/modules/ctrl-os-vms/)             | **Beta** | ✅       | 🚧    | ❌    | Declarative way to run generic VMs           |
+| Module                                                           | Status     | Unstable | 26.05 | 24.05 | Description                                |
+|------------------------------------------------------------------|------------|----------|-------|-------|--------------------------------------------|
+| [`profiles`](https://docs.ctrl-os.com/modules/ctrl-os-profiles/) | **Stable** | ✅       | 🚧    | ✅    | Different opinionated settings for CTRL-OS |
+| [`vms`](https://docs.ctrl-os.com/modules/ctrl-os-vms/)           | **Beta**   | ✅       | 🚧    | ❌    | Declarative way to run generic VMs         |
 
 ## Hardware Support
 
@@ -48,4 +48,4 @@ Just like modules, hardware support status depends on the release.
 
 | Platform                | Status      | Unstable | 26.05 | 24.05 |
 |-------------------------|-------------|----------|-------|-------|
-| Nvidia Jetson Orin Nano | **Planned** | 🚧       | 🚧    | ❌    |
+| Nvidia Jetson Orin Nano | **Testing** | ✅       | 🚧    | ❌    |
